@@ -55,8 +55,20 @@ nded="false" aria-label="Toggle navigation">
   <!--END OF Navigation -->
 
   <!--RSS NEWS FEED-->
-  <div class="container">
-    <span id="feed"></span>
+  <div class="container-fluid">
+  <div class="row">
+    <div id="feed" class="col-10 border border-primary" >
+      <!--<div class="spinner-border">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>-->
+    <div  class="col border border-primary" >
+
+    </div>
+  </div>
+</div>
+
+
 
   </div>
 <script>
@@ -65,7 +77,7 @@ nded="false" aria-label="Toggle navigation">
   }
 
   //call towards server to get xml feeds;
-  AJAX_GET('server.php', {'feed': 'getRSS'}, setFeed, '')
+  AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '')
 </script>
 
 
