@@ -4,30 +4,109 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />
     <title>Oceania News-Forum</title>
     <!-- Bootstrap core CSS -->
  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
  <script src="ajax.js"></script>
+ <!-- Extra-->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="bootstrap/js/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+
  <style>
- .form-inline{
-   margin-left: 8px;
- }
+  #searchBar {
+    margin-left: 10px;
+  }
+
+  body{
+    padding-top: 65px;
+
+  }
+  .btn-circle {
+    margin-left: 12px;
+    width: 50px;
+    height: 50px;
+    padding: 6px 0px;
+    border-radius: 20px;
+    font-size: 20px; //controls personicon
+    text-align: center;
+  }
+
+  .sticky-top {
+    padding-top: 100px;
+  }
+
+  @media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
+    body {
+        font-size: 100%;
+    }
+}
+
+@media screen and (max-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of less than 800px*/
+    body {
+        font-size: 12px;
+    }
+}
+
+.post-content{
+  font-size: 20px;
+}
+
+/*img:hover {
+  width: 80%;
+  height:80%;
+}*/
+
+img {
+  border-style: groove;
+}
+
+#spinner{
+  height: 10rem;
+  width: 10rem;
+  font-weight: bold;
+  visibility: visible;
+}
+
+
+
+
+
+
 </style>
 
   </head>
-  <body>
     <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">Oceania News & Forum</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
-data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expa
-nded="false" aria-label="Toggle navigation">
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
+
         <ul class="navbar-nav ml-auto">
+
+          <form id="searchBar" class="form-inline align-right border-right-0 mr-n1">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search News or Users.." aria-label="Search">
+            <button class="btn btn-outline-primary my-1 my-sm-0" type="submit">Search</button>
+          </form>
+
           <li class="nav-item active">
             <a class="nav-link" href="#">Home
               <span class="sr-only">(current)</span>
@@ -37,17 +116,33 @@ nded="false" aria-label="Toggle navigation">
             <a class="nav-link" href="#">Discussion</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Majoriem</a>
+            <a class="nav-link" href="#">Sources</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Gloriam</a>
+            <a class="nav-link" href="#">About</a>
           </li>
         </ul>
 
-        <form class="form-inline align-right border-right-0 mr-n1">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+
+
+        <div id="drop" class="dropdown align-right">
+            <button class="btn btn-primary btn-circle btn-sm  " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <span class="oi oi-person"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu1">
+              <li><a href="#">Profile</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Settings</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Sign out</a></li>
+              <li role="separator" class="divider"></li>
+
+            </ul>
+          </div>
+
+
+
 
       </div>
     </div>
@@ -55,14 +150,22 @@ nded="false" aria-label="Toggle navigation">
   <!--END OF Navigation -->
 
   <!--RSS NEWS FEED-->
+  <body>
   <div class="container-fluid">
   <div class="row">
-    <div id="feed" class="col-10 border border-primary" >
-      <!--<div class="spinner-border">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>-->
-    <div  class="col border border-primary" >
+
+    <div class="col-lg-9" >
+      <div class="text-center"><h1>Oceania News Headlines</h1></div>
+      <div  id=feed></div>
+      <div class="d-flex justify-content-center">
+      <div id='spinner' class=" spinner-border spinner-border-lg" role="status">
+            <span class="sr-only">Loading...</span>
+      </div></div>
+
+
+    </div>
+    <div id="sideBar" class="col-sm-3 border border-dark " >
+         <div class="sticky-top"><h1>Hello World</h1>
 
     </div>
   </div>
@@ -70,27 +173,49 @@ nded="false" aria-label="Toggle navigation">
 
 
 
+
   </div>
 <script>
   function setFeed(xmlObject){
-    document.getElementById("feed").innerHTML = xmlObject;
-  }
+    console.log("set");
 
+  //  document.getElementById("feed").innerHTML = xmlObject;
+    document.getElementById('spinner').style.visibility = 'collapse';
+    document.getElementById('spinner').style.height = '2px';
+    $('#spinner').removeClass('spinner-border');
+    $('#feed').html(xmlObject).hide();
+    $('#feed').fadeIn();
+
+
+
+  }
   //call towards server to get xml feeds;
-  AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '')
+  AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '');
+
+
 </script>
 
 
   <!-- Bootstrap core JavaScript -->
 
-  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- Bootstrap core JavaScript
- ================================================== -->
- <!-- Placed at the end of the document so the pages load faster -->
- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
- <script>window.jQuery || document.write('<script src="bootstrap/js/jquery-slim.min.js"><\/script>')</script>
- <script src="bootstrap/js/popper.min.js"></script>
- <script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+
+
+
+$(window).scroll(function() {
+    if($(window).scrollTop() == $(document).height() - $(window).height()) {
+          console.log("bottom of page hit");
+          document.getElementById('spinner').style.visibility = 'visible';
+          document.getElementById('spinner').style.height = '10rem';
+          $('#spinner').addClass('spinner-border');
+           // ajax call get data from server and append to the div
+           //AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '')
+    }
+});
+</script>
+
+
 
 
   </body>

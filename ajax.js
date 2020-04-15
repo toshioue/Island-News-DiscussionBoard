@@ -29,4 +29,16 @@ function AJAX_GET(ajaxBaseUrl, ajaxVars, callFunction, callArgs) {
   xhttp.send();
 }
 
+
+
+/*$(window).resize(function() {
+  var windowsize = $(window).width();
+  console.log(windowsize);
+  if (windowsize < 1000) {
+    //if the window is greater than 440px wide then turn on jScrollPane..
+    $( "#drop" ).removeClass( "dropdown" );
+    $( "#drop" ).addClass( "dropright" );
+  }
+});*/
+
 //AJAX_GET('server.php', {'action':'getVotes'}, getVotes, '')
