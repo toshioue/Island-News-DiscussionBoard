@@ -1,5 +1,10 @@
+<?php
+session_start();
+//check if user is logged in or not
 
 
+
+?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -17,13 +22,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <!-- Bootstrap core JavaScript
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Placed at the end of the document so the pages load faster
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
 
 
-<script src="bootstrap/js/popper.min.js"></script>
+<!--<script src="bootstrap/js/popper.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>-->
 
 
 
@@ -34,6 +39,7 @@
 
   body{
     padding-top: 65px;
+    /*margin-bottom: 30px;*/
 
   }
   .btn-circle {
@@ -71,15 +77,24 @@
   height:80%;
 }*/
 
-img {
-  border-style: groove;
-}
+
+
+
 
 #spinner{
   height: 10rem;
   width: 10rem;
   font-weight: bold;
   visibility: visible;
+  margin-bottom: 20px;
+}
+
+#reveal {
+  visibility: hidden;
+}
+
+.col-lg-9 {
+  background-color: #eeeeff
 }
 
 
@@ -102,22 +117,31 @@ img {
 
         <ul class="navbar-nav ml-auto">
 
-          <form id="searchBar" class="form-inline align-right border-right-0 mr-n1">
+          <form id="searchBar" class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search News or Users.." aria-label="Search">
             <button class="btn btn-outline-primary my-1 my-sm-0" type="submit">Search</button>
           </form>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+          <li id="home" class="nav-item active">
+            <a class="nav-link" href="#" >Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Discussion</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Sources</a>
-          </li>
+
+          <?php
+          if(!isset($_SESSION['user'])){
+             echo "<li class='nav-item'>
+                        <a class='nav-link' href='#'>Sign Up</a>
+                        </li>
+                    <li class='nav-item'>
+                        <a class='nav-link' href='#''>Log in</a>
+                        </li>";
+            }
+           ?>
+
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>
@@ -144,6 +168,9 @@ img {
 
 
 
+
+
+
       </div>
     </div>
   </nav>
@@ -156,12 +183,15 @@ img {
 
     <div class="col-lg-9" >
       <div class="text-center"><h1>Oceania News Headlines</h1></div>
-      <div  id=feed></div>
-      <div class="d-flex justify-content-center">
-      <div id='spinner' class=" spinner-border spinner-border-lg" role="status">
+        <div  id=feed></div>
+        <div class="d-flex justify-content-center">
+          <div id='spinner' class=" spinner-border spinner-border-lg" role="status">
             <span class="sr-only">Loading...</span>
-      </div></div>
-
+          </div>
+        </div>
+      <!--  <div class="text-center">
+          <button id='reveal' style="opacity: 0.6;" type="button" class="btn btn-secondary btn-lg btn-block oi oi-expand-down"></button>
+      </div>-->
 
     </div>
     <div id="sideBar" class="col-sm-3 border border-dark " >
@@ -178,44 +208,41 @@ img {
 <script>
   function setFeed(xmlObject){
     console.log("set");
-
   //  document.getElementById("feed").innerHTML = xmlObject;
     document.getElementById('spinner').style.visibility = 'collapse';
     document.getElementById('spinner').style.height = '2px';
     $('#spinner').removeClass('spinner-border');
-    $('#feed').html(xmlObject).hide();
-    $('#feed').fadeIn();
+    //make reveal button visible
+    //document.getElementById('reveal').style.visibility = 'visible';
+    if(globalNewsCount != 0){
+      console.log("got appended");
+      $(xmlObject).hide().appendTo("#feed").fadeIn(1000);
 
-
-
+    }else{
+      $('#feed').html(xmlObject).hide();
+      $('#feed').fadeIn();
+    }
   }
   //call towards server to get xml feeds;
-  AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '');
+  var globalNewsCount = 0;
+  AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
 
+  //Jquery to run Ajax call when wuser scrolls to bottom of page to load more news
+  $(window).scroll(function() {
+      if($(window).scrollTop() == $(document).height() - $(window).height()) {
+            console.log("bottom of page hit");
+            //this makes spinner viewable or button
+            //document.getElementById('spinner').style.visibility = 'visible';
+            //document.getElementById('spinner').style.height = '10rem';
+            //$('#spinner').addClass('spinner-border');
+            //increment globalNewsCount var to load new news
+            globalNewsCount++;
+             // ajax call get data from server and append to the div
+            AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
+      }
+  });
 
 </script>
-
-
-  <!-- Bootstrap core JavaScript -->
-
-
-<script>
-
-
-
-$(window).scroll(function() {
-    if($(window).scrollTop() == $(document).height() - $(window).height()) {
-          console.log("bottom of page hit");
-          document.getElementById('spinner').style.visibility = 'visible';
-          document.getElementById('spinner').style.height = '10rem';
-          $('#spinner').addClass('spinner-border');
-           // ajax call get data from server and append to the div
-           //AJAX_GET('next.php', {'feed': 'getRSS'}, setFeed, '')
-    }
-});
-</script>
-
-
 
 
   </body>

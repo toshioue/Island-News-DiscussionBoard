@@ -38,6 +38,9 @@ function AJAX_GET(ajaxBaseUrl, ajaxVars, callFunction, callArgs) {
     //if the window is greater than 440px wide then turn on jScrollPane..
     $( "#drop" ).removeClass( "dropdown" );
     $( "#drop" ).addClass( "dropright" );
+  }else{
+    $( "#drop" ).removeClass( "dropright" );
+    $( "#drop" ).addClass( "dropdown" );
   }
 });*/
 
