@@ -20,6 +20,7 @@ session_start();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link href="main.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster
@@ -31,78 +32,6 @@ session_start();
 <script src="bootstrap/js/bootstrap.min.js"></script>-->
 
 
-
- <style>
-  #searchBar {
-    margin-left: 10px;
-  }
-
-  body{
-    padding-top: 65px;
-    /*margin-bottom: 30px;*/
-
-  }
-  .btn-circle {
-    margin-left: 12px;
-    width: 50px;
-    height: 50px;
-    padding: 6px 0px;
-    border-radius: 20px;
-    font-size: 20px; //controls personicon
-    text-align: center;
-  }
-
-  .sticky-top {
-    padding-top: 100px;
-  }
-
-  @media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
-    body {
-        font-size: 100%;
-    }
-}
-
-@media screen and (max-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of less than 800px*/
-    body {
-        font-size: 12px;
-    }
-}
-
-.post-content{
-  font-size: 20px;
-}
-
-/*img:hover {
-  width: 80%;
-  height:80%;
-}*/
-
-
-
-
-
-#spinner{
-  height: 10rem;
-  width: 10rem;
-  font-weight: bold;
-  visibility: visible;
-  margin-bottom: 20px;
-}
-
-#reveal {
-  visibility: hidden;
-}
-
-.col-lg-9 {
-  background-color: #eeeeff
-}
-
-
-
-
-
-
-</style>
 
   </head>
     <!-- Navigation -->
@@ -137,7 +66,7 @@ session_start();
                         <a class='nav-link' href='#'>Sign Up</a>
                         </li>
                     <li class='nav-item'>
-                        <a class='nav-link' href='#''>Log in</a>
+                        <a class='nav-link' href='login.php''>Log in</a>
                         </li>";
             }
            ?>
@@ -182,6 +111,7 @@ session_start();
   <div class="row">
 
     <div class="col-lg-9" >
+      <!--main RSS news feed display -->
       <div class="text-center"><h1>Oceania News Headlines</h1></div>
         <div  id=feed></div>
         <div class="d-flex justify-content-center">
@@ -189,61 +119,68 @@ session_start();
             <span class="sr-only">Loading...</span>
           </div>
         </div>
-      <!--  <div class="text-center">
-          <button id='reveal' style="opacity: 0.6;" type="button" class="btn btn-secondary btn-lg btn-block oi oi-expand-down"></button>
-      </div>-->
-
     </div>
+    <!--Side Bar with toggles and side Features-->
     <div id="sideBar" class="col-sm-3 border border-dark " >
-         <div class="sticky-top"><h1>Hello World</h1>
+         <div class="sticky-top"><h3>Side bars in the works</h3>
 
+         </div>
     </div>
-  </div>
 </div>
 
-
-
-
   </div>
+
+<!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
 <script>
+
   function setFeed(xmlObject){
-    console.log("set");
-  //  document.getElementById("feed").innerHTML = xmlObject;
-    document.getElementById('spinner').style.visibility = 'collapse';
-    document.getElementById('spinner').style.height = '2px';
-    $('#spinner').removeClass('spinner-border');
-    //make reveal button visible
-    //document.getElementById('reveal').style.visibility = 'visible';
+    console.log("setFeed() called");
+    //determine if spinner loader exists, remove it from webpage
+    if ($("#spinner").length > 0){
+      console.log("spinner removed");
+      $('#spinner').remove();
+    }
+
+    //demterines if news needs to be appended or shown when webpages loads
     if(globalNewsCount != 0){
       console.log("got appended");
-      $(xmlObject).hide().appendTo("#feed").fadeIn(1000);
+      $(xmlObject).hide().appendTo("#feed").fadeIn(100);
+
+        $('html, body').animate({scrollTop: '+=200px'}, 800);
+
 
     }else{
       $('#feed').html(xmlObject).hide();
       $('#feed').fadeIn();
     }
   }
+
   //call towards server to get xml feeds;
-  var globalNewsCount = 0;
+  var globalNewsCount = 0; //gloal variable that keep tracks of # of news sources loaded to page.
+  //ajax call to server to get news
   AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
 
-  //Jquery to run Ajax call when wuser scrolls to bottom of page to load more news
+  //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
   $(window).scroll(function() {
       if($(window).scrollTop() == $(document).height() - $(window).height()) {
             console.log("bottom of page hit");
-            //this makes spinner viewable or button
-            //document.getElementById('spinner').style.visibility = 'visible';
-            //document.getElementById('spinner').style.height = '10rem';
-            //$('#spinner').addClass('spinner-border');
-            //increment globalNewsCount var to load new news
-            globalNewsCount++;
-             // ajax call get data from server and append to the div
+            globalNewsCount++; //increment news sources to load
+
+             // ajax call get data from server and append to the #feed div
             AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
       }
   });
 
-</script>
+  $(window).resize(function() {
+    var windowsize = $(window).width();
+    if (windowsize < 800) {
+      console.log(windowsize + " collapse");
 
+      //if the window is greater than 440px wide then turn on jScrollPane..
+      //$('#sideBar').remove();
+    }
+  });
+</script>
 
   </body>
 </html>

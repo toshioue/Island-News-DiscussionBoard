@@ -1,0 +1,64 @@
+#searchBar {
+  margin-right: 50px;
+}
+
+#searchBar > input {
+  padding-left: 50px;
+}
+
+body{
+  padding-top: 65px;
+  /*margin-bottom: 30px;*/
+
+}
+.btn-circle {
+  margin-left: 12px;
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 20px;
+  font-size: 20px; //controls personicon
+  text-align: center;
+}
+
+.sticky-top {
+  padding-top: 100px;
+}
+
+@media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
+  body {
+      font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of less than 800px*/
+  body {
+      /*font-size: 12px;*/
+  }
+}
+
+.post-content{
+font-size: 20px;
+}
+
+/*img:hover {
+width: 80%;
+height:80%;
+}*/
+
+
+#spinner{
+height: 10rem;
+width: 10rem;
+font-weight: bold;
+visibility: visible;
+margin-bottom: 20px;
+}
+
+#reveal {
+visibility: hidden;
+}
+
+.col-lg-9 {
+/*background-color: #eeee*/
+}

@@ -51,21 +51,21 @@ function loadNews($url, $code){
    //print_r(date('D, d M Y',strtotime('-1 week')));
   // date('D, d M Y',strtotime('yesterday');
   //print_r((string)$description);
-
   //if(strtotime($postDate) < strtotime('-2 days')) break;
+
    if($i >= 5) break; //allows for only 4 news articles
   ?>
-   <div class="post">
-     <div class="post-header">
-       <h2><a class="feed_title" target="_blank" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
+   <div class="jumbotron">
+     <div class="post-content">
+       <h2><a class="display-7" target="_blank" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
        <span><?php echo $pubDate; ?></span>
      </div>
-     <div class="post-content">
+     <div class="post-content lead ">
       <?php
       //echo $code;
        if( (strcmp($media, null) != 0) && (strcmp($code, "ROP") != 0) ){
          //echo $media;
-         echo "<div class='rounded text-center'><img src='" . $media . "' height='400' width='auto' /></div>";
+         echo "<div class='text-center'><img class='rounded border border-dark' src='" . $media . "' height='400' width='auto' /></div>";
        }
        ;
        echo implode(' ', array_slice(explode(' ', $description), 0, 49)) . "..."; ?> <a target="_blank" href="<?php echo $link; ?>">Read more</a></br></br>
