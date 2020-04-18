@@ -106,22 +106,23 @@ session_start();
   <!--END OF Navigation -->
 
   <!--RSS NEWS FEED-->
-  <body>
+  <body style="background-image: url('img/sokehs.jpg');">
   <div class="container-fluid">
   <div class="row">
 
     <div class="col-lg-9" >
       <!--main RSS news feed display -->
-      <div class="text-center"><h1>Oceania News Headlines</h1></div>
+      <div class="text-center text-light"><h1>Oceania News Headlines</h1></div>
         <div  id=feed></div>
         <div class="d-flex justify-content-center">
-          <div id='spinner' class=" spinner-border spinner-border-lg" role="status">
-            <span class="sr-only">Loading...</span>
+          <div id='spinner' class=" spinner-border spinner-border-lg text-light" role="status">
+            <span class="sr-only text-light">Loading...</span>
           </div>
+        <span id="load" class="text-light" style="font-size: 30px; display: none;">Loading...</span>
         </div>
     </div>
     <!--Side Bar with toggles and side Features-->
-    <div id="sideBar" class="col-sm-3 border border-dark " >
+    <div id="sideBar" class="col-sm-3 border border-dark bg-dark" >
          <div class="sticky-top"><h3>Side bars in the works</h3>
 
          </div>
@@ -136,9 +137,19 @@ session_start();
   function setFeed(xmlObject){
     console.log("setFeed() called");
     //determine if spinner loader exists, remove it from webpage
+    if(xmlObject == 0 ){
+      console.log('stopped');
+      $('#load').css('display', 'none');
+      return;
+    }
     if ($("#spinner").length > 0){
       console.log("spinner removed");
       $('#spinner').remove();
+    }
+
+    if($('#load').css('display') == 'flex'){
+      console.log("set to none");
+      $('#load').css('display', 'none');
     }
 
     //demterines if news needs to be appended or shown when webpages loads
@@ -164,6 +175,8 @@ session_start();
   $(window).scroll(function() {
       if($(window).scrollTop() == $(document).height() - $(window).height()) {
             console.log("bottom of page hit");
+
+            $('#load').css('display', 'flex');
             globalNewsCount++; //increment news sources to load
 
              // ajax call get data from server and append to the #feed div

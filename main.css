@@ -8,6 +8,8 @@
 
 body{
   padding-top: 65px;
+  background-image: url('img/satawal.jpg');
+  background-repeat:space;
   /*margin-bottom: 30px;*/
 
 }
@@ -27,7 +29,7 @@ body{
 
 @media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
   body {
-      font-size: 15px;
+      font-size: 13px;
   }
 }
 
@@ -50,15 +52,15 @@ height:80%;
 #spinner{
 height: 10rem;
 width: 10rem;
+
 font-weight: bold;
 visibility: visible;
-margin-bottom: 20px;
+color: red;
 }
+
+
+
 
 #reveal {
 visibility: hidden;
-}
-
-.col-lg-9 {
-/*background-color: #eeee*/
 }

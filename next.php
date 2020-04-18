@@ -30,7 +30,7 @@ function loadNews($url, $code){
     $site = str_replace("on Facebook", "", $site);
   }
   $sitelink = $feeds->channel->link;
-  echo "<h1>".$site."</h1>";
+  echo "<h2 class='text-light'>".$site."</h2>";
 
   //iterate through the xml object and grab title, description, and date
   foreach ($feeds->channel->item as $item) {
@@ -55,12 +55,12 @@ function loadNews($url, $code){
 
    if($i >= 5) break; //allows for only 4 news articles
   ?>
-   <div class="jumbotron">
+   <div class="jumbotron animated fadeInUp">
      <div class="post-content">
        <h2><a class="display-7" target="_blank" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
        <span><?php echo $pubDate; ?></span>
      </div>
-     <div class="post-content lead ">
+     <div class="lead">
       <?php
       //echo $code;
        if( (strcmp($media, null) != 0) && (strcmp($code, "ROP") != 0) ){
@@ -88,6 +88,8 @@ if(isset($_GET['newsCount'])){
   $num = $_GET['newsCount'];
   if($num < sizeof($urlKeys)){
     loadNews($urlArray[$urlKeys[$num]], $urlKeys[$num]);
+  }else{
+    echo 0;
   }
 
 }
