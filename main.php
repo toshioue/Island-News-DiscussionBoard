@@ -116,7 +116,7 @@ session_start();
         <div  id=feed></div>
         <div class="d-flex justify-content-center">
           <div id='spinner' class=" spinner-border spinner-border-lg text-light" role="status">
-            <span class="sr-only text-light">Loading...</span>
+            <span class="sr-only text-light h2">Loading...</span>
           </div>
         <span id="load" class="text-light" style="font-size: 30px; display: none;">Loading...</span>
         </div>

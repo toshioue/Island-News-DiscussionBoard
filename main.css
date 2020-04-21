@@ -8,8 +8,9 @@
 
 body{
   padding-top: 65px;
-  background-image: url('img/satawal.jpg');
-  background-repeat:space;
+  background-color: black;
+  background-image: url('img/sokehs.jpg');
+  background-repeat:repeat;
   /*margin-bottom: 30px;*/
 
 }
@@ -30,6 +31,7 @@ body{
 @media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
   body {
       font-size: 13px;
+        background-image: url('img/sokehs.jpg');
   }
 }
 

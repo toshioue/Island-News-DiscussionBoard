@@ -15,6 +15,29 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
    <!--custom CSS-->
    <link href="main.css" rel="stylesheet">
+
+   <style>
+
+   .container{
+     margin: 0 auto;
+
+   }
+
+   .form-group {
+     padding-left: 10%;
+     padding-right: 10%;
+   }
+
+   #box {
+     margin-top: 20px;
+   }
+    body {
+      margin: 0;
+      width: 100%;
+      background-image: url('img/sokehs.jpg');
+      background-size: cover;
+    }
+   </style>
   </head>
 
   <!-- Navigation -->
@@ -71,12 +94,29 @@
 <!--END OF Navigation -->
 
   <body>
-    <div class="container center_div ">
-      <div id= "box" class="jumbotron">
+    <div class="container row justify-content-center">
+      <div class="col-md-6 col-md-offset-3 ">
+      <div id= "box" class=" flex jumbotron jumbotron-fluid rounded border border-dark">
 
-        <div class="row">
+        <div class="form-group  justify-content-center">
+          <div class="col-xs-4">
+          <form method="POST" action="login.php" >
+            <h3 class="display-5 text-center">Login </h3>
+            <span id="newmistake" style="color: red;"> </span>
+            <label class="lead" for="form-control ">Username:</label>
+            <input  type="text" onchange="checkUserName(this.value)" class="form-control " name="enteredUser" placeholder="Rice21" required><br>
+            <label class="lead" for="form-control">Password:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
+            <input  type="password" onchange="checkLength(this.value)" class="form-control" name="enteredPswd" required><br />
+            <div class="text-center">
+            <button type="submit" id="newsubmit" name="newsubmit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-secondary ">Reset</button>
+            </div>
+          </form>
+        </div>
+        </div>
 
-          <div class="form-group col-md-4">
+
+          <!--<div class="form-group col-md-4">
             <form method="post">
               <span id="mistake" style="color: red;"> </span>
             <h3 >Login </h3>
@@ -87,31 +127,20 @@
             <button type="submit" name="submitt" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
           </form>
-          </div>
+        </div>-->
 
-          <div class="col-md-1">
+        <!--  <div class="col-md-1">
           </div>
           <div align="center" class="vl">
           </div>
           <div class="col-md-1">
-          </div>
+          </div>-->
 
-          <div  class="form-group col-md-4">
-            <form method="post" >
-            <h3 >New User? Sign up!</h3>
-            <span id="newmistake" style="color: red;"> </span>
-            <label for="form-control">Pick a Username</label>
-           <input  type="text" onchange="checkUserName(this.value)" class="form-control" name="newuser" placeholder="derp" required>
-           <label  for="form-control">Pick a password</label> <!--<sub>-must be at least 5 characers long.</sub>-->
-           <input  type="password" onchange="checkLength(this.value)" class="form-control" name="newpswd" required><br />
-           <button type="submit" id="newsubmit" name="newsubmit" class="btn btn-primary">Submit</button>
-           <button type="reset" class="btn btn-secondary">Reset</button>
-         </form>
-        </div>
 
-      </div>
+
     </div>
   </div>
 
+  </div>
   </body>
 </html>
