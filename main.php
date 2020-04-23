@@ -63,10 +63,10 @@ session_start();
           <?php
           if(!isset($_SESSION['user'])){
              echo "<li class='nav-item'>
-                        <a class='nav-link' href='#'>Sign Up</a>
+                        <a class='nav-link' href='signup.php'>Sign Up</a>
                         </li>
                     <li class='nav-item'>
-                        <a class='nav-link' href='login.php''>Log in</a>
+                        <a class='nav-link' href='login.php'>Log in</a>
                         </li>";
             }
            ?>
@@ -105,6 +105,11 @@ session_start();
   </nav>
   <!--END OF Navigation -->
 
+
+
+
+
+
   <!--RSS NEWS FEED-->
   <body style="background-image: url('img/sokehs.jpg');">
   <div class="container-fluid">
@@ -130,6 +135,12 @@ session_start();
 </div>
 
   </div>
+
+  <!-- Modal -->
+  <?php if(isset($_SESSION['created'])){
+  echo file_get_contents('modal.html');
+  unset($_SESSION['created']);
+  }?>
 
 <!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
 <script>
@@ -193,7 +204,14 @@ session_start();
       //$('#sideBar').remove();
     }
   });
+
+
+  $(window).on('load',function(){
+       $('#Modal').modal('show');
+   });
 </script>
+
+
 
   </body>
 </html>

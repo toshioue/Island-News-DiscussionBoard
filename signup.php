@@ -1,3 +1,57 @@
+<?php
+session_start();
+
+if(isset($_POST['createUser'])){
+
+//grab all the provided fields in signup dialog
+$username = $_POST['enteredUser'];
+$first = $_POST['enteredFirst'];
+$last = $_POST['enteredLast'];
+$pswd = password_hash($_POST["enteredPswd"], PASSWORD_DEFAULT);
+
+
+
+
+require_once('mysql.inc.php');    # MySQL Connection Library
+$db = new myConnectDB();          # Connect to MySQL
+
+//check if connecting to DB draws error
+if (mysqli_connect_errno()) {
+  echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
+}
+
+
+//insert values from post to the Database
+if(isset($_POST["enteredUser"])){
+  $insert = "INSERT INTO Users (Username, FirstName, LastName, Password) VALUES (?, ?, ?, ?)";
+  $stmt = $db->stmt_init();
+  $stmt->prepare($insert);
+  //bind
+  $stmt->bind_param('ssss', $username, $first, $last, $pswd);
+  $sucess = $stmt->execute();
+//  $inserted = false;
+
+  //check to see if DB insert was successful if not print DB error
+  if(!$sucess || $db->affected_rows == 0){
+    echo "<h2>ERROR: " . $db->error . "for query</h2>"; // error statement
+  }else{
+    //echo "<h2>Signup Success!</h2>"; //print if entry is sucess!
+    //$inserted = true;
+    $_SESSION['user'] = $username;
+    $_SESSION['created'] = true;
+    header("Location: main.php");
+  }
+  $stmt->close();
+}
+
+
+}
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -65,13 +119,12 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Discussion</a>
         </li>
-
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="login.php">login</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="signup.php">Sign up</a>
+          <a class="nav-link" href="#">About</a>
         </li>
       </ul>
 
@@ -104,16 +157,23 @@
 
         <div class="form-group  justify-content-center">
           <div class="col-xs-4">
-          <form method="POST" action="login.php" >
-            <h3 class="display-5 text-center">Login </h3>
-            <p class="text-center">Dont have an account? <a href="signup.php">Sign up!</a> </p><br/>
-            <span id="newmistake" style="color: red;"> </span>
-            <label class="lead" for="form-control ">Username:</label>
-            <input  type="text" onchange="checkUserName(this.value)" class="form-control " name="enteredUser" required><br>
+          <form method="POST" action="signup.php" >
+            <h3 class="display-5 text-center">Sign up</h3>
+            <p>Create an account to participate in forum and specialize news to your preference!</p>
+            <span id="usermistake" style="color: red;"> </span>
+            <label id="username" class="lead" for="form-control">Username:</label>
+            <input  type="text"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
+            <label  class="lead" for="form-control">First Name:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
+            <input  type="text" class="form-control" name="enteredFirst" required><br />
+
+            <label class="lead" for="form-control">Last Name:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
+            <input  type="text" class="form-control" name="enteredLast" required><br />
+
             <label class="lead" for="form-control">Password:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
             <input  type="password" onkeydown="checkLength(this.value)" class="form-control" name="enteredPswd" required><br />
+            <span id="pswdmistake" style="color: red;"> </span>
             <div class="text-center">
-            <button type="submit" id="newsubmit" name="newsubmit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="newsubmit"  name="createUser" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-secondary ">Reset</button>
             </div>
           </form>
@@ -121,31 +181,25 @@
         </div>
 
 
-          <!--<div class="form-group col-md-4">
-            <form method="post">
-              <span id="mistake" style="color: red;"> </span>
-            <h3 >Login </h3>
-            <label for="form-control">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Sawyer" required>
-            <label for="form-control">Password</label>
-            <input type="password" class="form-control" id="pswd" name="pswd" required><br />
-            <button type="submit" name="submitt" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-        </div>-->
-
-        <!--  <div class="col-md-1">
-          </div>
-          <div align="center" class="vl">
-          </div>
-          <div class="col-md-1">
-          </div>-->
-
-
-
     </div>
   </div>
 
   </div>
   </body>
+
+  <script>
+  function checkLength(word){
+    if(word.length < 5 ){
+      document.getElementById('pswdmistake').innerHTML = "* password needs to be greater length of 5."
+      document.getElementById('newsubmit').disabled = true;
+
+    }else{
+      document.getElementById('pswdmistake').innerHTML = "";
+      document.getElementById('newsubmit').disabled = false;
+
+    }
+  }
+
+
+  </script>
 </html>
