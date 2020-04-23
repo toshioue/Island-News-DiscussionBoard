@@ -4,17 +4,10 @@ Date: April 22, 2020
 */
 
 
-
+DROP TABLE IF EXISTS Sessions;
 DROP TABLE IF EXISTS Comments;
 DROP TABLE IF EXISTS Discussions;
 DROP TABLE IF EXISTS Users;
-/*DROP TABLE IF EXISTS Cancer_Colrect;
-DROP TABLE IF EXISTS Cancer_Digothr;
-DROP TABLE IF EXISTS Cancer_Femgen;
-DROP TABLE IF EXISTS Cancer_Malegen;
-DROP TABLE IF EXISTS Cancer_Respir;
-*/
-
 
 /*USERS TABLE*/
 CREATE TABLE Users (Username VARCHAR(20) NOT NULL,
@@ -46,3 +39,11 @@ CREATE TABLE Comments ( CommentID INT NOT NULL AUTO_INCREMENT,
                             REFERENCES Users (Username),
                         CONSTRAINT FK_Comments_PostID FOREIGN KEY (PostID)
                             REFERENCES Discussions (PostID));
+
+/*Sessions */
+CREATE TABLE Sessions (User VARCHAR(20) NOT NULL,
+                       SessionID VARCHAR(100) NOT NULL,
+                       LastVisit TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       CONSTRAINT PK_Session PRIMARY KEY (SessionID),
+                           CONSTRAINT FK_auth_Session_Users FOREIGN KEY(User)
+                           REFERENCES Users (Username) ON DELETE CASCADE ON UPDATE CASCADE);

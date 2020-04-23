@@ -29,14 +29,15 @@ if(isset($_POST["enteredUser"])){
   //bind
   $stmt->bind_param('ssss', $username, $first, $last, $pswd);
   $sucess = $stmt->execute();
-//  $inserted = false;
+
 
   //check to see if DB insert was successful if not print DB error
   if(!$sucess || $db->affected_rows == 0){
-    echo "<h2>ERROR: " . $db->error . "for query</h2>"; // error statement
+    //echo "<h2>ERROR: " . $db->error . "for query</h2>"; // error statement
+    $insertion = false;
   }else{
     //echo "<h2>Signup Success!</h2>"; //print if entry is sucess!
-    //$inserted = true;
+
     $_SESSION['user'] = $username;
     $_SESSION['created'] = true;
     header("Location: main.php");
@@ -120,7 +121,7 @@ if(isset($_POST["enteredUser"])){
           <a class="nav-link" href="#">Discussion</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.php">login</a>
+          <a class="nav-link" href="login.php">Login</a>
         </li>
 
         <li class="nav-item">
@@ -160,9 +161,9 @@ if(isset($_POST["enteredUser"])){
           <form method="POST" action="signup.php" >
             <h3 class="display-5 text-center">Sign up</h3>
             <p>Create an account to participate in forum and specialize news to your preference!</p>
+            <label id="username"  class="lead" for="form-control">Username:</label>
             <span id="usermistake" style="color: red;"> </span>
-            <label id="username" class="lead" for="form-control">Username:</label>
-            <input  type="text"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
+            <input  type="text" onkeydown="wipe()"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
             <label  class="lead" for="form-control">First Name:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
             <input  type="text" class="form-control" name="enteredFirst" required><br />
 
@@ -199,6 +200,19 @@ if(isset($_POST["enteredUser"])){
 
     }
   }
+
+  function wipe(){
+    if(!$('#usermistake').is(':empty')){
+      console.log('its not empy')
+      $('#usermistake').empty();
+    }
+  }
+
+  <?php
+    if($insertion == false && isset($_POST['enteredUser'])){
+      echo "document.getElementById('usermistake').innerHTML = '* username has already been used';";
+    }
+    ?>
 
 
   </script>

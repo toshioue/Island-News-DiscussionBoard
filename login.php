@@ -1,3 +1,13 @@
+<?php
+session_start();
+if(isset($_GET['logout'])){
+  session_destroy();
+
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -104,6 +114,7 @@
 
         <div class="form-group  justify-content-center">
           <div class="col-xs-4">
+            <p id="logOutMessage" class="text-center" style="font-size:20px; color:purple;"></p>
           <form method="POST" action="login.php" >
             <h3 class="display-5 text-center">Login </h3>
             <p class="text-center">Dont have an account? <a href="signup.php">Sign up!</a> </p><br/>
@@ -147,5 +158,13 @@
   </div>
 
   </div>
+  <script>
+  <?php
+      if(isset($_GET['logout'])){
+          echo "document.getElementById('logOutMessage').innerHTML = 'You have signed out!';";
+
+      }
+    ?>
+  </script>
   </body>
 </html>

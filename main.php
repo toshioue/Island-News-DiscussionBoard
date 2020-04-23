@@ -84,11 +84,16 @@ session_start();
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu1">
+              <?php
+                if(isset($_SESSION['user'])){
+                  echo "<label>" . $_SESSION['user'] . "</label>";
+                }
+               ?>
               <li><a href="#">Profile</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Settings</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Sign out</a></li>
+              <li><a href="login.php?logout=yes">Sign out</a></li>
               <li role="separator" class="divider"></li>
 
             </ul>
@@ -127,7 +132,7 @@ session_start();
         </div>
     </div>
     <!--Side Bar with toggles and side Features-->
-    <div id="sideBar" class="col-sm-3 border border-dark bg-dark" >
+    <div id="sideBar" class="col-md-3 border border-dark bg-dark" >
          <div class="sticky-top"><h3>Side bars in the works</h3>
 
          </div>
@@ -158,22 +163,27 @@ session_start();
       $('#spinner').remove();
     }
 
-    if($('#load').css('display') == 'flex'){
+    /*if($('#load').css('display') == 'flex'){
       console.log("set to none");
       $('#load').css('display', 'none');
-    }
+    }*/
 
     //demterines if news needs to be appended or shown when webpages loads
     if(globalNewsCount != 0){
       console.log("got appended");
       $(xmlObject).hide().appendTo("#feed").fadeIn(100);
 
-        $('html, body').animate({scrollTop: '+=200px'}, 800);
+      $('html, body').animate({scrollTop: '+=200px'}, 800);
 
 
     }else{
       $('#feed').html(xmlObject).hide();
       $('#feed').fadeIn();
+    }
+
+    if($('#load').css('display') == 'flex'){
+      console.log("set to none");
+      $('#load').css('display', 'none');
     }
   }
 
@@ -184,7 +194,7 @@ session_start();
 
   //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
   $(window).scroll(function() {
-      if($(window).scrollTop() == $(document).height() - $(window).height()) {
+      if($(window).scrollTop() == $(document).height() - $(window).height() && globalNewsCount < 6) {
             console.log("bottom of page hit");
 
             $('#load').css('display', 'flex');
