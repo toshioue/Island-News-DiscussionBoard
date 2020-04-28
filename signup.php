@@ -9,9 +9,6 @@ $first = $_POST['enteredFirst'];
 $last = $_POST['enteredLast'];
 $pswd = password_hash($_POST["enteredPswd"], PASSWORD_DEFAULT);
 
-
-
-
 require_once('mysql.inc.php');    # MySQL Connection Library
 $db = new myConnectDB();          # Connect to MySQL
 

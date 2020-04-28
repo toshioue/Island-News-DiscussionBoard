@@ -1,7 +1,35 @@
 <?php
 session_start();
+require_once('mysql.inc.php');    # MySQL Connection Library
+include 'functions.php';
+$db = new myConnectDB();    # Connect to MySQL
+$wrongCredential = false;
+//check if connecting to DB draws error
+if (mysqli_connect_errno()) {
+  echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
+}
+
 if(isset($_GET['logout'])){
+  $sessionText = session_encode();
+  update($db, $_SESSION['user'], $sessionText);
+  logoff($db, session_id());
   session_destroy();
+
+}
+
+
+if(isset($_POST['enteredUser']) && isset($_POST['enteredPswd'])){
+
+  $user = $_POST['enteredUser'];
+  $pswd = $_POST['enteredPswd'];
+  $sessionid = session_id();
+  if(logon($db, $user, $pswd, $sessionid)){
+    session_decode(getSession($db, $user));
+    //print_r($_SESSION['user']);
+    //header("Location: main.php");
+  }else{
+    $wrongCredential = true;
+  }
 
 }
 
@@ -120,9 +148,9 @@ if(isset($_GET['logout'])){
             <p class="text-center">Dont have an account? <a href="signup.php">Sign up!</a> </p><br/>
             <span id="newmistake" style="color: red;"> </span>
             <label class="lead" for="form-control ">Username:</label>
-            <input  type="text" onchange="checkUserName(this.value)" class="form-control " name="enteredUser" required><br>
+            <input  type="text"  class="form-control " name="enteredUser" required><br>
             <label class="lead" for="form-control">Password:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
-            <input  type="password" onkeydown="checkLength(this.value)" class="form-control" name="enteredPswd" required><br />
+            <input  type="password"  class="form-control" name="enteredPswd" required><br />
             <div class="text-center">
             <button type="submit" id="newsubmit" name="newsubmit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-secondary ">Reset</button>
@@ -130,27 +158,6 @@ if(isset($_GET['logout'])){
           </form>
         </div>
         </div>
-
-
-          <!--<div class="form-group col-md-4">
-            <form method="post">
-              <span id="mistake" style="color: red;"> </span>
-            <h3 >Login </h3>
-            <label for="form-control">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Sawyer" required>
-            <label for="form-control">Password</label>
-            <input type="password" class="form-control" id="pswd" name="pswd" required><br />
-            <button type="submit" name="submitt" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </form>
-        </div>-->
-
-        <!--  <div class="col-md-1">
-          </div>
-          <div align="center" class="vl">
-          </div>
-          <div class="col-md-1">
-          </div>-->
 
 
 
@@ -162,6 +169,15 @@ if(isset($_GET['logout'])){
   <?php
       if(isset($_GET['logout'])){
           echo "document.getElementById('logOutMessage').innerHTML = 'You have signed out!';";
+
+      }
+
+      if($wrongCredential == true){
+        echo "document.getElementById('logOutMessage').innerHTML = '*Password or Username does not exists or is wrong';";
+        echo "document.getElementById('logOutMessage').style.color = 'red';";
+        
+
+
 
       }
     ?>

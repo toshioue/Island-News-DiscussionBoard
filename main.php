@@ -158,32 +158,30 @@ session_start();
       $('#load').css('display', 'none');
       return;
     }
-    if ($("#spinner").length > 0){
-      console.log("spinner removed");
-      $('#spinner').remove();
-    }
 
-    /*if($('#load').css('display') == 'flex'){
-      console.log("set to none");
-      $('#load').css('display', 'none');
-    }*/
+
 
     //demterines if news needs to be appended or shown when webpages loads
     if(globalNewsCount != 0){
       console.log("got appended");
-      $(xmlObject).hide().appendTo("#feed").fadeIn(100);
+      $(xmlObject).hide().appendTo("#feed").fadeIn(1000);
 
-      $('html, body').animate({scrollTop: '+=200px'}, 800);
+     $('html, body').animate({scrollTop: '+=300px'}, 300);
 
-
+    /////////////////////////////////////////////////////////////////////////
     }else{
       $('#feed').html(xmlObject).hide();
-      $('#feed').fadeIn();
+      $('#feed').fadeIn(1000);
     }
 
     if($('#load').css('display') == 'flex'){
       console.log("set to none");
       $('#load').css('display', 'none');
+    }
+
+    if ($("#spinner").length > 0){
+      console.log("spinner removed");
+      $('#spinner').remove();
     }
   }
 
@@ -194,8 +192,12 @@ session_start();
 
   //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
   $(window).scroll(function() {
-      if($(window).scrollTop() == $(document).height() - $(window).height() && globalNewsCount < 6) {
+    //console.log($(window).scrollTop());
+      if($(window).scrollTop() == $(document).height() - $(window).height() && globalNewsCount < 7 ) {
+          //$('html, body').animate({scrollTop: '-=5px'}, 200);
+
             console.log("bottom of page hit");
+
 
             $('#load').css('display', 'flex');
             globalNewsCount++; //increment news sources to load
