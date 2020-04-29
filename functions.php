@@ -38,6 +38,7 @@ function logon($db, $username, $password, $sessionid) {
         return False;
       }
    //echo "It worked, looged in";
+   $stmt->close();
    return True;
   }else
   //  echo "password did not match";
@@ -73,18 +74,19 @@ function getSession($db, $username){
 
 
 
-function update($db, $username, $session_string){
-  $query = "UPDATE Users set Session =? where Username=?";
+function update($db, $session, $username){
+  $query = "UPDATE Users SET Session = ? WHERE Username = ? ";
 
   //prepare and bind database $query
   $stmt = $db->stmt_init();
   $stmt->prepare($query);
-  $stmt->bind_param('ss', $session_string, $username);
+  $stmt->bind_param('ss', $session, $username);
   $sucess = $stmt->execute();
 
   //check for query error
   if(!$sucess || $db->affected_rows == 0){
-      echo "ERROR: " . $db->error . "for query"; // error statement
+      //echo "ERROR: " . $db->error . "for query"; // error statement
+
       return;
   }
 
@@ -142,8 +144,27 @@ function update($db, $username, $session_string){
      $stmt->close();
 
      return $user;
+  }*/
+
+function insertSessionID($db, $user, $sessionid){
+  $insert = "INSERT INTO Sessions (User, SessionID) VALUES (?, ?)";
+  $stmt = $db->stmt_init();
+  $stmt->prepare($insert);
+  //bind
+  $stmt->bind_param('ss', $user, $sessionid);
+  $sucess = $stmt->execute();
+
+
+  //check to see if DB insert was successful if not print DB error
+  if(!$sucess || $db->affected_rows == 0){
+    echo "<h2>ERROR: " . $db->error . "for query</h2>"; // error statement
+  }else{
+    //echo "<h2>Signup Success!</h2>"; //print if entry is sucess!
   }
-*/
+  $stmt->close();
+}
+
+
 function logoff($db, $sessionid){
   $query = "DELETE FROM Sessions where SessionID=?";
 

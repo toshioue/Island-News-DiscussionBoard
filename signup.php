@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+include 'functions.php';
+
 if(isset($_POST['createUser'])){
 
 //grab all the provided fields in signup dialog
@@ -34,12 +36,13 @@ if(isset($_POST["enteredUser"])){
     $insertion = false;
   }else{
     //echo "<h2>Signup Success!</h2>"; //print if entry is sucess!
+    $stmt->close();
 
     $_SESSION['user'] = $username;
     $_SESSION['created'] = true;
+    insertSessionID($db, $username, session_id());
     header("Location: main.php");
   }
-  $stmt->close();
 }
 
 
@@ -133,15 +136,20 @@ if(isset($_POST["enteredUser"])){
             <span class="oi oi-person"></span>
             <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Profile</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Settings</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Sign out</a></li>
-            <li role="separator" class="divider"></li>
+          <?php
+          if(isset($_SESSION['user'])){
+              echo"<ul class='dropdown-menu text-center' aria-labelledby='dropdownMenu1'>";
+              echo "<label>" . $_SESSION['user'] . "</label>";
+              echo "<li><a id='prof' href='#'>Profile</a></li>
+                <li role='separator' class='divider'></li>
+                <li><a href='#'>Settings</a></li>
+                <li role='separator' class='divider'></li>
+                <li><a href='login.php?logout=yes'>Sign out</a></li>
+                <li role='separator' class='divider'></li></ul>";
 
-          </ul>
+              }
+              ?>
+
         </div>
     </div>
   </div>

@@ -2,19 +2,19 @@
 session_start();
 //check if user is logged in or not
 
-
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />
+    <link rel="icon" type="image/jpg" href="#">
     <title>Oceania News-Forum</title>
     <!-- Bootstrap core CSS -->
  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
  <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
  <script src="ajax.js"></script>
+
  <!-- Extra-->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -47,8 +47,8 @@ session_start();
         <ul class="navbar-nav ml-auto">
 
           <form id="searchBar" class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search News or Users.." aria-label="Search">
-            <button class="btn btn-outline-primary my-1 my-sm-0" type="submit">Search</button>
+            <input class="form-control" type="search" placeholder="Search News or Users.." aria-label="Search">
+            <button class="btn btn-sm btn-outline-primary " type="submit">Search</button>
           </form>
 
           <li id="home" class="nav-item active">
@@ -57,7 +57,7 @@ session_start();
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Discussion</a>
+            <a class="nav-link" href="discussion.php">Discussion</a>
           </li>
 
           <?php
@@ -83,20 +83,20 @@ session_start();
               <span class="oi oi-person"></span>
               <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenu1">
               <?php
                 if(isset($_SESSION['user'])){
-                  echo "<label>" . $_SESSION['user'] . "</label>";
-                }
-               ?>
-              <li><a href="#">Profile</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Settings</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="login.php?logout=yes">Sign out</a></li>
-              <li role="separator" class="divider"></li>
+              echo"<ul class='dropdown-menu text-center' aria-labelledby='dropdownMenu1'>";
+              echo "<label>" . $_SESSION['user'] . "</label>";
+              echo "<li><a id='prof' href='#'>Profile</a></li>
+                <li role='separator' class='divider'></li>
+                <li><a href='#'>Settings</a></li>
+                <li role='separator' class='divider'></li>
+                <li><a href='login.php?logout=yes'>Sign out</a></li>
+                <li role='separator' class='divider'></li></ul>";
 
-            </ul>
+            }
+            ?>
+
           </div>
 
 
@@ -123,28 +123,40 @@ session_start();
     <div class="col-lg-9" >
       <!--main RSS news feed display -->
       <div class="text-center text-light"><h1>Oceania News Headlines</h1></div>
-        <div  id=feed></div>
-        <div class="d-flex justify-content-center">
-          <div id='spinner' class=" spinner-border spinner-border-lg text-light" role="status">
+        <div  id='feed'></div>
+        <div id='spinnerDiv' class="d-flex justify-content-center">
+          <div id='spinner' class="spinner-border spinner-border-lg text-light" role="status">
             <span class="sr-only text-light h2">Loading...</span>
           </div>
         <span id="load" class="text-light" style="font-size: 30px; display: none;">Loading...</span>
         </div>
     </div>
     <!--Side Bar with toggles and side Features-->
-    <div id="sideBar" class="col-md-3 border border-dark bg-dark" >
-         <div class="sticky-top"><h3>Side bars in the works</h3>
+    <div id="sidenav"  class="col-lg-3 border-left border-primary bg-dark" >
+         <div class="sticky-top">
 
-         </div>
-    </div>
+           <p class=" h5 text-center underline"><u>News Layout</u><p>
+            <div class="btn-toolbar justify-content-center " role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group btn-group-lg mr-2 border border-light" role="group" aria-label="First group" style="border-radius: 45px;">
+                <button type="button" class="btn btn-secondary active">scroll</button>
+                <button type="button" class="btn btn-secondary">map</button>
+              </div>
+            </div>
+
+
+
+
+        </div>
 </div>
 
   </div>
 
   <!-- Modal -->
-  <?php if(isset($_SESSION['created'])){
-  echo file_get_contents('modal.html');
-  unset($_SESSION['created']);
+  <?php
+  //THIS ONLY RUNS WHEN USERS SIGNS UP FOR FIRST TIME
+  if(isset($_SESSION['created'])){
+    echo file_get_contents('modal.html');
+    unset($_SESSION['created']);
   }?>
 
 <!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
@@ -154,6 +166,7 @@ session_start();
     console.log("setFeed() called");
     //determine if spinner loader exists, remove it from webpage
     if(xmlObject == 0 ){
+      done = true;
       console.log('stopped');
       $('#load').css('display', 'none');
       return;
@@ -168,6 +181,7 @@ session_start();
 
      $('html, body').animate({scrollTop: '+=300px'}, 300);
 
+
     /////////////////////////////////////////////////////////////////////////
     }else{
       $('#feed').html(xmlObject).hide();
@@ -181,19 +195,30 @@ session_start();
 
     if ($("#spinner").length > 0){
       console.log("spinner removed");
-      $('#spinner').remove();
+      spinner = $('#spinner').detach();
     }
+    wait = false;
   }
+
+
+function check(response){
+  console.log('check got called');
+  //console.log(response);
+}
 
   //call towards server to get xml feeds;
   var globalNewsCount = 0; //gloal variable that keep tracks of # of news sources loaded to page.
+  var done = false; // global variable to determine when all news have loadede-attached spinner
+  var wait = false; //global variable boolean for disabling bottom loading
+  var spinner; //global variable to store spinner for map/scroll switch
   //ajax call to server to get news
   AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
+  //call('https://api.weather.gov/points/6.892113,158.214691', check);
 
   //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
   $(window).scroll(function() {
     //console.log($(window).scrollTop());
-      if($(window).scrollTop() == $(document).height() - $(window).height() && globalNewsCount < 7 ) {
+      if($(window).scrollTop() == $(document).height() - $(window).height() && done == false && wait == false) {
           //$('html, body').animate({scrollTop: '-=5px'}, 200);
 
             console.log("bottom of page hit");
@@ -201,26 +226,51 @@ session_start();
 
             $('#load').css('display', 'flex');
             globalNewsCount++; //increment news sources to load
-
+            wait = true;
              // ajax call get data from server and append to the #feed div
             AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
       }
   });
 
+  //only for printing out window size when window is resized. no other use.
   $(window).resize(function() {
     var windowsize = $(window).width();
     if (windowsize < 800) {
       console.log(windowsize + " collapse");
-
-      //if the window is greater than 440px wide then turn on jScrollPane..
-      //$('#sideBar').remove();
     }
   });
 
-
+  //used for js modal pop up when page finish loading when there is a sign up
   $(window).on('load',function(){
        $('#Modal').modal('show');
    });
+  //////////////////////////////////////
+
+   //used for button group when switching news layout
+   $(".btn-group > .btn").click(function(){
+     $(this).addClass("active").siblings().removeClass("active");
+   });
+   //////////////////////////////////////
+
+   //when button group gets click
+   $(".btn-secondary").click(function(){
+       console.log($(this).html());
+       if($(this).html() == 'scroll'){
+          document.getElementById('feed').innerHTML = "";
+          spinner.appendTo('#spinnerDiv');
+          spinner = null;
+          globalNewsCount = 0;
+          done = false;
+          AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
+        }else{
+          //JS scetion reserved for three.js
+        }
+
+     });
+
+
+
+
 </script>
 
 

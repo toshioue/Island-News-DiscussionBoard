@@ -1,9 +1,27 @@
 #searchBar {
-  margin-right: 50px;
+  margin-right: 100px;
 }
 
 #searchBar > input {
-  padding-left: 50px;
+  height: 28px;
+}
+
+.sticky-top{
+  padding-top: 15px;
+  color: white;
+
+}
+
+#sidenav {
+  height: 100%;
+  width: 325px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  margin-top: 65px;
 }
 
 body{
@@ -24,9 +42,7 @@ body{
   text-align: center;
 }
 
-.sticky-top {
-  padding-top: 100px;
-}
+
 
 @media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
   body {
@@ -35,19 +51,21 @@ body{
   }
 }
 
-@media screen and (max-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of less than 800px*/
+@media screen and (max-width: 990px) { /*The following CSS runs only for displays with a width (in pixels) of less than 800px*/
   body {
       /*font-size: 12px;*/
+  }
+
+  #sidenav {
+    visibility: collapse;
+    padding: 0px;
+    display: none;
   }
 }
 
 .post-content{
 font-size: 20px;
 }
-
-
-
-
 
 #spinner{
 height: 10rem;
@@ -57,8 +75,6 @@ font-weight: bold;
 visibility: visible;
 color: red;
 }
-
-
 
 
 #reveal {

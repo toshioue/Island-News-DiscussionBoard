@@ -29,6 +29,27 @@ function AJAX_GET(ajaxBaseUrl, ajaxVars, callFunction, callArgs) {
   xhttp.send();
 }
 
+/*function call(url, callFunction){
+var request = new XMLHttpRequest();
+
+request.open('GET', url, true);
+request.onload = function() {
+  // Begin accessing JSON data here
+  var data = JSON.parse(this.response);
+
+  if (request.status >= 200 && request.status < 400) {
+      //callFunction(data);
+      console.log(data);
+  } else {
+    console.log('error');
+  }
+}
+
+request.send();
+
+
+}*/
+
 
 
 /*$(window).resize(function() {

@@ -55,7 +55,7 @@ function loadNews($url, $code){
 
    if($i >= 5) break; //allows for only 4 news articles
   ?>
-   <div class="jumbotron animated fadeInUp">
+   <div class="jumbotron animated fadeInUp border border-dark">
      <div class="post-content">
        <h2><a class="display-7" target="_blank" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
        <span><?php echo $pubDate; ?></span>
@@ -83,16 +83,18 @@ function loadNews($url, $code){
 }
 
 
+
 //start of SERVER CONTROL code
 if(isset($_GET['newsCount'])){
   $num = $_GET['newsCount'];
   if($num < sizeof($urlKeys)){
     loadNews($urlArray[$urlKeys[$num]], $urlKeys[$num]);
   }else{
-    echo 0;
+    echo 0;//means no more news left to load
   }
-
 }
+
+
 
 
 
