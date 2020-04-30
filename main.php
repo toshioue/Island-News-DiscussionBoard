@@ -124,7 +124,7 @@ session_start();
       <!--main RSS news feed display -->
       <div class="text-center text-light"><h1>Oceania News Headlines</h1></div>
         <div  id='feed'></div>
-        <div id='spinnerDiv' class="d-flex justify-content-center">
+        <div id='spinnerDiv' class="d-flex justify-content-center mt-3">
           <div id='spinner' class="spinner-border spinner-border-lg text-light" role="status">
             <span class="sr-only text-light h2">Loading...</span>
           </div>

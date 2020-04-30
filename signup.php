@@ -118,7 +118,7 @@ if(isset($_POST["enteredUser"])){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Discussion</a>
+          <a class="nav-link" href="discussion.php">Discussion</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="login.php">Login</a>
