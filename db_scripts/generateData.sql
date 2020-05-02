@@ -22,4 +22,4 @@ INSERT INTO Midshipmen (Alpha, Hash, FirstName, LastName, WatchType, Exempt, Dut
 INSERT INTO UnderWatch VALUES (DATE '2019-3-28','13:00' ,'14:00', 204554 ),
                                (DATE '2019-3-28', '14:00', '15:00', 206111);
 */
-INSERT INTO Users (Username, FirstName, LastName, Password) VALUES ('Tosh681', 'Toshi', 'Oue', 'fefefefefefef');
+INSERT INTO Users () VALUES ('Tosh681', 'Toshi', 'Oue', 'fefefefefefef');

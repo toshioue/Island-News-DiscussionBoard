@@ -40,6 +40,9 @@ if(isset($_POST["enteredUser"])){
 
     $_SESSION['user'] = $username;
     $_SESSION['created'] = true;
+    $_SESSION['firstName'] = $first;
+    $_SESSION['lastName'] = $last;
+
     insertSessionID($db, $username, session_id());
     header("Location: main.php");
   }
@@ -118,14 +121,14 @@ if(isset($_POST["enteredUser"])){
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Discussion</a>
+          <a class="nav-link" href="discussion.php">Discussion</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="login.php">Login</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="about.php">About</a>
         </li>
       </ul>
 
@@ -168,7 +171,7 @@ if(isset($_POST["enteredUser"])){
             <p>Create an account to participate in forum and specialize news to your preference!</p>
             <label id="username"  class="lead" for="form-control">Username:</label>
             <span id="usermistake" style="color: red;"> </span>
-            <input  type="text" onkeydown="wipe()"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
+            <input  type="text" onkeydown="wipe()" maxlength="12"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
             <label  class="lead" for="form-control">First Name:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
             <input  type="text" class="form-control" name="enteredFirst" required><br />
 
@@ -194,6 +197,7 @@ if(isset($_POST["enteredUser"])){
   </body>
 
   <script>
+  //checks if password is right size
   function checkLength(word){
     if(word.length < 5 ){
       document.getElementById('pswdmistake').innerHTML = "* password needs to be greater length of 5."
@@ -205,7 +209,7 @@ if(isset($_POST["enteredUser"])){
 
     }
   }
-
+  //wipes users mistake when re-entering
   function wipe(){
     if(!$('#usermistake').is(':empty')){
       console.log('its not empy')
