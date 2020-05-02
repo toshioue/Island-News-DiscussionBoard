@@ -63,7 +63,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
           </form>-->
 
           <li id="home" class="nav-item">
-            <a class="nav-link" href="main.php" >Home
+            <a class="nav-link" href="main.php" >News
               <span class="sr-only">(current)</span>
             </a>
           </li>
