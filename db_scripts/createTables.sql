@@ -37,7 +37,7 @@ CREATE TABLE Comments ( CommentID INT NOT NULL AUTO_INCREMENT,
                         PostID INT NOT NULL,
                         Comment VARCHAR(500) NOT NULL,
                         Author VARCHAR(20) NOT NULL,
-                        Stamp DATETIME NOT NULL,
+                        Stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         CONSTRAINT PK_Comments PRIMARY KEY (CommentID),
                         CONSTRAINT FK_Comments_Author FOREIGN KEY (Author)
                             REFERENCES Users (Username),

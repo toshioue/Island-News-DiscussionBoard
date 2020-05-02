@@ -48,7 +48,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   <style>
 
     button:hover {
-      background-color: red;
+      background-color: #DC143C;
     }
     .jumbotron {
       height: auto;
@@ -269,8 +269,10 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   //////////////////////////////////////
 
    //used for button group when switching news layout
-   /*$(".btn-group > .btn").click(function(){
-     $(this).addClass("active").siblings().removeClass("active");
+   /*$("button").click(function(){
+     //console.log($(this).attr('value'));
+     console.log("clickee");
+     //$(this).addClass("active").siblings().removeClass("active");
    });*/
    //////////////////////////////////////
 
@@ -290,6 +292,28 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
      });
 
+  function showPost(obj){
+    //console.log(obj.value);
+    document.getElementById('postButton').innerHTML = "<a class='btn text-light' href='discussion.php'>back to Board</a>";
+    document.getElementById('feed').innerHTML = "";
+    spinner.appendTo('#spinnerDiv');
+    spinner = null;
+    AJAX_GET('next.php', {'onePost': obj.value}, setFeed, '');
+
+  }
+
+  function insertComment(postID){
+      var comment = document.getElementById('insertComment').value;
+    //  console.log(postID + " " + com );
+      console.log('inserting a comment');
+      if(comment != ""){
+        AJAX_GET('next.php', {'insertComment': postID, 'comment' : comment}, reloadPost, '');
+      }
+  }
+  function reloadPost(id){
+    console.log('comment added, reloading.. ' + id);
+    AJAX_GET('next.php', {'onePost': id}, setFeed, '');
+  }
 
   function postRequest(){
     //AJAX call for making post

@@ -3,6 +3,15 @@ session_start();
 include 'functions.php';
 require_once('mysql.inc.php');    # MySQL Connection Library
 
+if(isset($_GET['onePost']) || isset($_GET['postCount']) || isset($_GET['insertComment'])){
+$db = new myConnectDB();          # Connect to MySQL
+//check if connecting to DB draws error
+if (mysqli_connect_errno()) {
+    echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
+  }
+}
+
+
 //global variables containing news sources
  $urlTemp = "https://www.rnz.co.nz/rss/pacific.xml";
  $urlArray = array('FSM' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e87aadd8a93f8e3188b4567.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e94eef18a93f8c1478b4567.xml",
@@ -100,17 +109,20 @@ if(isset($_GET['newsCount'])){
     echo 0;//means no more news left to load
   }
 }else if(isset($_GET['getEdit'])){
+    //if user is signed in and once to make a post
     echo file_get_contents('post.html');
 }else if(isset($_GET['postCount'])){
-      $db = new myConnectDB();          # Connect to MySQL
-      //check if connecting to DB draws error
-      if (mysqli_connect_errno()) {
-          echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
-        }
 
+    //loads discussion board to discussion.pp
     $result = loadDiscussions($db);
     echo $result;
 
+}else if(isset($_GET['onePost'])){
+    //if user is requesting to view a specific post
+    getPost($db, $_GET['onePost']);
+}else if(isset($_GET['insertComment'])){
+  //if a comment once to be inserted
+    insertComment($db, $_GET['insertComment'], $_GET['comment'], $_SESSION['user']);
 }else{
   echo 0;
 }

@@ -168,7 +168,7 @@ if(isset($_POST["enteredUser"])){
             <p>Create an account to participate in forum and specialize news to your preference!</p>
             <label id="username"  class="lead" for="form-control">Username:</label>
             <span id="usermistake" style="color: red;"> </span>
-            <input  type="text" onkeydown="wipe()"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
+            <input  type="text" onkeydown="wipe()" maxlength="12"  class="form-control " name="enteredUser" placeholder="Rice21.." required><br>
             <label  class="lead" for="form-control">First Name:</label> <!--<sub>-must be at least 5 characers long.</sub>-->
             <input  type="text" class="form-control" name="enteredFirst" required><br />
 
