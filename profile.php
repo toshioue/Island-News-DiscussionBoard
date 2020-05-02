@@ -57,24 +57,14 @@ session_start();
 
       <ul class="navbar-nav ml-auto">
 
-        <form id="searchBar" class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search News or Users.." aria-label="Search">
-          <button class="btn btn-outline-primary my-1 my-sm-0" type="submit">Search</button>
-        </form>
 
         <li id="home" class="nav-item">
-          <a class="nav-link" href="main.php">Home
+          <a class="nav-link" href="main.php">News
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="discussion.php">Discussion</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login.php">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="signup.php">Sign up</a>
         </li>
 
         <li class="nav-item">
