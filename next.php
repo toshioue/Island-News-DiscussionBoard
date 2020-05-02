@@ -1,8 +1,10 @@
 <?php
+/*THIS FILE IS DEDICATED AS THE SERVER THAT PERFORMS ALL SQL ACTION AND SENDS RESULT TO CLIENT(MAIN.PHP AND DISCUSSION.PHP)*/
 session_start();
 include 'functions.php';
 require_once('mysql.inc.php');    # MySQL Connection Library
 
+//tis gets call when SQL access is neeeded
 if(isset($_GET['onePost']) || isset($_GET['postCount']) || isset($_GET['insertComment'])){
 $db = new myConnectDB();          # Connect to MySQL
 //check if connecting to DB draws error
@@ -15,9 +17,20 @@ if (mysqli_connect_errno()) {
 //global variables containing news sources
  $urlTemp = "https://www.rnz.co.nz/rss/pacific.xml";
  $urlArray = array('FSM' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e87aadd8a93f8e3188b4567.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e94eef18a93f8c1478b4567.xml",
-                    'GUM' => "https://www.pncguam.com/feed/", 'NAU' => "http://nauru-news.com/feed/", "KRI" => "https://kiribatiupdates.com.ki/feed/");
-$urlKeys = array_keys($urlArray);
+                    'GUM' => "https://www.pncguam.com/feed/", 'NAU' => "http://nauru-news.com/feed/", "KRI" => "https://kiribatiupdates.com.ki/feed/", 'FIJ' => "https://www.fbcnews.com.fj/feed/", "VAN" => "https://dailypost.vu/search/?f=rss&t=article&c=news",
+                    "TGA" => "https://nukualofatimes.tbu.to/feed/", "CKI" => "http://www.cookislandsnews.com/?format=feed&type=rss",
+                    'SAM' => "https://www.samoanews.com/taxonomy/term/1/all/feed");
 
+//filters news if client sends filter request
+if(isset($_GET['filterNews'])){
+  $fil = $_GET['filterNews'];
+  if($fil == 1){ $urlArray = array_slice($urlArray, 0, 6);
+  }else if($fil == 2){$urlArray = array_slice($urlArray, 6, 2, true);
+  }else if ($fil == 3){$urlArray = array_slice($urlArray, 8, 3);}
+
+}
+//used for keys
+$urlKeys = array_keys($urlArray);
 
 /* this function loads the desire url xml feed and parses it out to the client side*/
 /* portion of code taken from https://makitweb.com/how-to-read-rss-feeds-using-php  */
@@ -30,7 +43,6 @@ function loadNews($url, $code){
   $invalidurl = true;
   echo "<h2>Invalid RSS feed URL.</h2>";
  }
-
 
  $i=0; //counter
  if(!empty($feeds)){
@@ -60,11 +72,6 @@ function loadNews($url, $code){
    $media = (string)$item->children("media", true)->attributes();
 
 
-   //print_r(date('D, d M Y',strtotime('-1 week')));
-  // date('D, d M Y',strtotime('yesterday');
-  //print_r((string)$description);
-  //if(strtotime($postDate) < strtotime('-2 days')) break;
-
    if($i >= 5) break; //allows for only 4 news articles
   ?>
    <div class="jumbotron animated fadeInUp border border-dark">
@@ -87,7 +94,6 @@ function loadNews($url, $code){
    <?php
     $i++;
    }
-
  }else{
    if(!$invalidurl){
      echo "<h2>No item found</h2>";
@@ -96,11 +102,8 @@ function loadNews($url, $code){
 }
 
 
-
-
-
-
 //start of SERVER CONTROL code
+//below are several if/else statements which determines what action needs to be done
 if(isset($_GET['newsCount'])){
   $num = $_GET['newsCount'];
   if($num < sizeof($urlKeys)){
@@ -114,7 +117,7 @@ if(isset($_GET['newsCount'])){
 }else if(isset($_GET['postCount'])){
 
     //loads discussion board to discussion.pp
-    $result = loadDiscussions($db);
+    $result = loadDiscussions($db, $_GET['filter']);
     echo $result;
 
 }else if(isset($_GET['onePost'])){

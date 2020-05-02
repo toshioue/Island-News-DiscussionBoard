@@ -40,6 +40,9 @@ if(isset($_POST["enteredUser"])){
 
     $_SESSION['user'] = $username;
     $_SESSION['created'] = true;
+    $_SESSION['firstName'] = $first;
+    $_SESSION['lastName'] = $last;
+
     insertSessionID($db, $username, session_id());
     header("Location: main.php");
   }
@@ -125,7 +128,7 @@ if(isset($_POST["enteredUser"])){
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="about.php">About</a>
         </li>
       </ul>
 
@@ -194,6 +197,7 @@ if(isset($_POST["enteredUser"])){
   </body>
 
   <script>
+  //checks if password is right size
   function checkLength(word){
     if(word.length < 5 ){
       document.getElementById('pswdmistake').innerHTML = "* password needs to be greater length of 5."
@@ -205,7 +209,7 @@ if(isset($_POST["enteredUser"])){
 
     }
   }
-
+  //wipes users mistake when re-entering
   function wipe(){
     if(!$('#usermistake').is(':empty')){
       console.log('its not empy')

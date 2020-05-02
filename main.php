@@ -22,17 +22,6 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link href="main.css" rel="stylesheet">
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-
-
-<!--<script src="bootstrap/js/popper.min.js"></script>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>-->
-
-
 
   </head>
     <!-- Navigation -->
@@ -47,11 +36,12 @@ session_start();
 
         <ul class="navbar-nav ml-auto">
 
-          <form id="searchBar" class="form-inline">
+        <!--  <form id="searchBar" class="form-inline">
             <input class="form-control" type="search" placeholder="Search News or Users.." aria-label="Search">
             <button class="btn btn-sm btn-outline-primary " type="submit">Search</button>
-          </form>
+          </form>-->
 
+          <!--navbar Tabs-->
           <li id="home" class="nav-item active">
             <a class="nav-link" href="#" >Home
               <span class="sr-only">(current)</span>
@@ -71,9 +61,8 @@ session_start();
                         </li>";
             }
            ?>
-
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="about.php">About</a>
           </li>
         </ul>
 
@@ -84,28 +73,20 @@ session_start();
               <span class="oi oi-person"></span>
               <span class="caret"></span>
             </button>
+            <!--Below is for profile dropdown-->
               <?php
                 if(isset($_SESSION['user'])){
               echo"<ul class='dropdown-menu text-center' aria-labelledby='dropdownMenu1'>";
-              echo "<label>" . $_SESSION['user'] . "</label>";
-              echo "<li><a id='prof' href='#'>Profile</a></li>
+              echo "<label><b>" . $_SESSION['user'] . "</b></label>";
+              echo "<li><a id='prof' href='profile.php'>Profile</a></li>
                 <li role='separator' class='divider'></li>
-                <li><a href='#'>Settings</a></li>
                 <li role='separator' class='divider'></li>
                 <li><a href='login.php?logout=yes'>Sign out</a></li>
                 <li role='separator' class='divider'></li></ul>";
 
             }
             ?>
-
           </div>
-
-
-
-
-
-
-
       </div>
     </div>
   </nav>
@@ -136,17 +117,36 @@ session_start();
     <div id="sidenav"  class="col-lg-3 border-left border-primary bg-dark" >
          <div class="sticky-top">
 
-           <p class=" h5 text-center underline"><u>News Layout</u><p>
+           <p class=" h4 text-center underline"><u>News Layout</u><p>
             <div class="btn-toolbar justify-content-center " role="toolbar" aria-label="Toolbar with button groups">
               <div class="btn-group btn-group-lg mr-2 border border-light" role="group" aria-label="First group" style="border-radius: 45px;">
                 <button type="button" class="btn btn-secondary active">scroll</button>
                 <button type="button" class="btn btn-secondary">map</button>
               </div>
+
+            </div>
+            <!-- Radio buttons for filtering News -->
+      <div id="radios" class="container text-center">
+          <br/><br/><p class="h3 text-center underline"><u>Filters</u><p>
+
+            <!-- Micronesia - option 1 -->
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios" value='1'>
+              <label class="custom-control-label" for="defaultGroupExample1" value='1'>Micronesia</label>
             </div>
 
+            <!-- Melanesia - option 2 -->
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="groupOfDefaultRadios" value='2' >
+              <label class="custom-control-label" for="defaultGroupExample2" >Melanesia</label>
+            </div>
 
-
-
+            <!-- Polynesia - option 3 -->
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="defaultGroupExample3" name="groupOfDefaultRadios" value='3'>
+              <label class="custom-control-label" for="defaultGroupExample3" >Polynesia</label>
+            </div>
+          </div>
         </div>
 </div>
 
@@ -163,6 +163,7 @@ session_start();
 <!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
 <script>
 
+  //function is used for seting News feed when server responds with news
   function setFeed(xmlObject){
     console.log("setFeed() called");
     //determine if spinner loader exists, remove it from webpage
@@ -173,8 +174,6 @@ session_start();
       return;
     }
 
-
-
     //demterines if news needs to be appended or shown when webpages loads
     if(globalNewsCount != 0){
       console.log("got appended");
@@ -182,8 +181,6 @@ session_start();
 
      $('html, body').animate({scrollTop: '+=300px'}, 600);
 
-
-    /////////////////////////////////////////////////////////////////////////
     }else{
       $('#feed').html(xmlObject).hide();
       $('#feed').fadeIn(1000);
@@ -201,7 +198,7 @@ session_start();
     wait = false;
   }
 
-
+//function used for checking what AJAX gets called ; debugging purposes
 function check(response){
   console.log('check got called');
   //console.log(response);
@@ -212,6 +209,8 @@ function check(response){
   var done = false; // global variable to determine when all news have loadede-attached spinner
   var wait = false; //global variable boolean for disabling bottom loading
   var spinner; //global variable to store spinner for map/scroll switch
+  var fil = 0
+
   //ajax call to server to get news
   AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
   //call('https://api.weather.gov/points/6.892113,158.214691', check);
@@ -220,20 +219,17 @@ function check(response){
   $(window).scroll(function() {
     //console.log($(window).scrollTop());
       if($(window).scrollTop() == $(document).height() - $(window).height() && done == false && wait == false) {
-          //$('html, body').animate({scrollTop: '-=5px'}, 200);
-
             console.log("bottom of page hit");
-
 
             $('#load').css('display', 'flex');
             globalNewsCount++; //increment news sources to load
             wait = true;
              // ajax call get data from server and append to the #feed div
-            AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
+            AJAX_GET('next.php', {'newsCount': globalNewsCount, 'filterNews' : fil}, setFeed, '');
       }
   });
 
-  //only for printing out window size when window is resized. no other use.
+  //only for printing out window size when window is resized. no other use. debugging
   $(window).resize(function() {
     var windowsize = $(window).width();
     if (windowsize < 800) {
@@ -241,19 +237,19 @@ function check(response){
     }
   });
 
-  //used for js modal pop up when page finish loading when there is a sign up
+  //used for js modal pop up when page finish loading when there is a sign up/new user
   $(window).on('load',function(){
        $('#Modal').modal('show');
    });
   //////////////////////////////////////
 
-   //used for button group when switching news layout
+   //used for button group when switching active news layout map or scroll
    $(".btn-group > .btn").click(function(){
      $(this).addClass("active").siblings().removeClass("active");
    });
    //////////////////////////////////////
 
-   //when button group gets click
+   //when button group gets click for map or scroll layout
    $(".btn-secondary").click(function(){
        console.log($(this).html());
        if($(this).html() == 'scroll'){
@@ -263,18 +259,27 @@ function check(response){
           globalNewsCount = 0;
           done = false;
           AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
-        }else{
-          //JS scetion reserved for three.js
-        }
+        }else if($(this).html() == 'map'){
+          done = true;
+          document.getElementById('feed').innerHTML = "<iframe class='border border-dark' width='100%' height='450' src='https://embed.windy.com/embed2.html?lat=-2.285&lon=168.047&zoom=3&level=surface&overlay=wind&menu=&message=true&marker=true&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=33.816&detailLon=-117.969&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1' frameborder='0'></iframe>"
+        }else{}
 
      });
 
+     //function runs when radio buttons gets toggle so specific news can be loaded
+     $('#radios input:radio').click(function() {
+        //console.log('radio clicked ' + $(this).val());
+        document.getElementById('feed').innerHTML = "";
+        spinner.appendTo('#spinnerDiv');
+        spinner = null;
+        fil = $(this).val();
+        done = false;
+        globalNewsCount = 0;
+        AJAX_GET('next.php', {'newsCount': globalNewsCount, 'filterNews' : fil }, setFeed, '');
 
-
+   });
 
 </script>
-
-
 
   </body>
 </html>

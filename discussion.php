@@ -1,20 +1,19 @@
 <?php
 session_start();
 require_once('mysql.inc.php');    # MySQL Connection Library
-include 'functions.php';
-//check if user is logged in or not
+include 'functions.php'; //inlcuded to run insertPost() function
 
+//check if user is logged in or not
 if(isset($_POST['submitPost']) && isset($_SESSION['user'])){
-//function for inserting posts
-$db = new myConnectDB();          # Connect to MySQL
+$db = new myConnectDB();    # Connect to MySQL
 //check if connecting to DB draws error
 if (mysqli_connect_errno()) {
   echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
 }
+//function for inserting posts
 //this function is from function.php that will run a insert sql statement
 insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $_POST['cat_post']);
 }
-
 
 ?>
 
@@ -35,24 +34,13 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link href="main.css" rel="stylesheet">
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-
-
-<!--<script src="bootstrap/js/popper.min.js"></script>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>-->
 
   <style>
-
     button:hover {
       background-color: #DC143C;
     }
     .jumbotron {
       height: auto;
-
     }
   </style>
 
@@ -69,10 +57,10 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
         <ul class="navbar-nav ml-auto">
 
-          <form id="searchBar" class="form-inline">
+        <!--  <form id="searchBar" class="form-inline">
             <input class="form-control" type="search" placeholder="Search News or Users.." aria-label="Search">
             <button class="btn btn-sm btn-outline-primary " type="submit">Search</button>
-          </form>
+          </form>-->
 
           <li id="home" class="nav-item">
             <a class="nav-link" href="main.php" >Home
@@ -82,7 +70,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
           <li class="nav-item active">
             <a class="nav-link" href="discussion.php">Discussion</a>
           </li>
-
+          <!--extra tags if user is logged in or not-->
           <?php
           if(!isset($_SESSION['user'])){
              echo "<li class='nav-item'>
@@ -93,14 +81,13 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
                         </li>";
             }
            ?>
-
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="about.php">About</a>
           </li>
         </ul>
 
 
-
+        <!--profile dropdown -->
         <div id="drop" class="dropdown align-right">
             <button class="btn btn-primary btn-circle btn-sm  " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <span class="oi oi-person"></span>
@@ -109,10 +96,9 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
               <?php
                 if(isset($_SESSION['user'])){
               echo"<ul class='dropdown-menu text-center' aria-labelledby='dropdownMenu1'>";
-              echo "<label>" . $_SESSION['user'] . "</label>";
+              echo "<label><b>" . $_SESSION['user'] . "</b></label>";
               echo "<li><a id='prof' href='#'>Profile</a></li>
                 <li role='separator' class='divider'></li>
-                <li><a href='#'>Settings</a></li>
                 <li role='separator' class='divider'></li>
                 <li><a href='login.php?logout=yes'>Sign out</a></li>
                 <li role='separator' class='divider'></li></ul>";
@@ -134,17 +120,13 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   <!--END OF Navigation -->
 
 
-
-
-
-
-  <!--RSS NEWS FEED-->
+  <!--Disucssion Posts-->
   <body style="background-image: url('img/sokehs.jpg');">
   <div class="container-fluid">
   <div class="row">
 
     <div class="col-lg-9" >
-      <!--main RSS news feed display -->
+      <!--main Discussion Post display -->
       <div class="text-center text-light mt-2"><h1>Discussion Board</h1></div>
         <div class='jumbotron jumbotron-fluid rounded-top ' id='feed'>
         <div id='spinnerDiv' class="d-flex justify-content-center mt-3">
@@ -158,8 +140,17 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
     <!--Side Bar with toggles and side Features-->
     <div id="sidenav" class="col-lg-3 border-left border-primary bg-dark bg-transparent" >
          <div class="sticky-top">
-           <div class="container bg-light rounded py-4 text-center"><button id="postButton" type="button" class="btn btn-lg py-3 px-10  btn-danger">Create a Post</button></div>
-           <div class="h2 text-center">Filters</div>
+           <div class="container bg-light rounded py-4 text-center"><button id="postButton" type="button" class="btn btn-lg py-3 px-10  btn-danger">Create a Post</button></div><br/>
+           <div class="h2 text-center container ">
+             <!--Filter for Discussion psts-->
+             <p><u>Filters</u></p>
+             <div class="btn-group btn-group-sm mr-2 text-center" role="group" aria-label="First group" style="border-radius: 45px;">
+               <button type="button" class="btn btn-secondary active">Newest</button>
+               <button type="button" class="btn btn-secondary">most Views</button>
+               <button type="button" class="btn btn-secondary">most Comments</button>
+             </div>
+
+           </div>
         </div>
     </div>
 
@@ -167,19 +158,21 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
   <!-- Modal -->
   <?php
-  //THIS ONLY RUNS WHEN USERS SIGNS UP FOR FIRST TIME
+  //THIS ONLY RUNS WHEN USERS HAS NOT signed up yet
   if(!isset($_SESSION['user'])){
     echo file_get_contents('modal.html');
   }?>
 
 <!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
 <script>
-  $('#Modal').modal('hide');
+  $('#Modal').modal('hide'); // hide modal jus in case
 
   //this if statement prevents sendning POST values when pages is refreshed
   if ( window.history.replaceState ) {
           window.history.replaceState( null, null, window.location.href );
       }
+
+  //generic function that will load dicsussion posts in container
   function setFeed(xmlObject){
     console.log("setFeed() called");
     //determine if spinner loader exists, remove it from webpage
@@ -200,7 +193,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
 
 
-    //demterines if news needs to be appended or shown when webpages loads
+    //demterines if posts needs to be appended or shown when webpages loads
     if(globalPostCount != 0){
       console.log("got appended");
       $(xmlObject).hide().appendTo("#feed").fadeIn(1000);
@@ -208,7 +201,6 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
      $('html, body').animate({scrollTop: '+=300px'}, 300);
 
 
-    /////////////////////////////////////////////////////////////////////////
     }else{
       $('#feed').html(xmlObject).hide();
       $('#feed').fadeIn(1000);
@@ -221,10 +213,10 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
       $('#load').css('display', 'none');
     }
 
-  /*  if ($("#spinner").length > 0){
+    if ($("#spinner").length > 0){
       console.log("spinner removed");
       spinner = $('#spinner').detach();
-    }*/
+    }
     wait = false;
   }
 
@@ -238,24 +230,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   var spinner; //global variable to store spinner for map/scroll switch
   //ajax call to server to get news
   AJAX_GET('next.php', {'postCount': globalPostCount}, setFeed, '');
-  //call('https://api.weather.gov/points/6.892113,158.214691', check);
 
-  //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
-/*  $(window).scroll(function() {
-    //console.log($(window).scrollTop());
-      if($(window).scrollTop() == $(document).height() - $(window).height() && done == false && wait == false) {
-          //$('html, body').animate({scrollTop: '-=5px'}, 200);
-
-            console.log("bottom of page hit");
-
-
-            $('#load').css('display', 'flex');
-            globalPostCount++; //increment news sources to load
-            wait = true;
-             // ajax call get data from server and append to the #feed div
-            AJAX_GET('next.php', {'newsCount': globalPostCount}, setFeed, '');
-      }
-  });*/
 
   //only for printing out window size when window is resized. no other use.
   $(window).resize(function() {
@@ -268,40 +243,44 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
   //////////////////////////////////////
 
-   //used for button group when switching news layout
-   /*$("button").click(function(){
-     //console.log($(this).attr('value'));
-     console.log("clickee");
-     //$(this).addClass("active").siblings().removeClass("active");
-   });*/
+   //used for button group when switching posts layout
+   $(".btn-group > .btn").click(function(){
+     $(this).addClass("active").siblings().removeClass("active");
+   });
    //////////////////////////////////////
 
-   //when button group gets click
+   //Filter for Newest, mostViews, most comments
    $(".btn-secondary").click(function(){
        console.log($(this).html());
-       if($(this).html() == 'scroll'){
-          document.getElementById('feed').innerHTML = "";
-          spinner.appendTo('#spinnerDiv');
-          spinner = null;
-          globalPostCount = 0;
-          done = false;
-          AJAX_GET('next.php', {'postCount': globalPostCount}, setFeed, '');
-        }else{
-          //JS scetion reserved for three.js
-        }
+       document.getElementById('feed').innerHTML = "";
+       spinner.appendTo('#spinnerDiv');
+       spinner = null;
+       globalPostCount = 0;
+       done = false;
+       if($(this).html() == 'Newest'){
+          AJAX_GET('next.php', {'postCount': globalPostCount, 'filter' : 0}, setFeed, '');
+        }else if ($(this).html() == 'most Views'){
+          AJAX_GET('next.php', {'postCount': globalPostCount, 'filter' : 1 }, setFeed, '');
+        }else if ($(this).html() == 'most Comments'){
+          AJAX_GET('next.php', {'postCount': globalPostCount, 'filter' : 2}, setFeed, '');
+        }else{ }
 
      });
 
+  //function for when user wants to see an indvidual post
   function showPost(obj){
     //console.log(obj.value);
-    document.getElementById('postButton').innerHTML = "<a class='btn text-light' href='discussion.php'>back to Board</a>";
+    //clear div
+    document.getElementById('postButton').innerHTML = "<a  class='btn text-light' href='discussion.php'>back to Board</button>";
     document.getElementById('feed').innerHTML = "";
     spinner.appendTo('#spinnerDiv');
     spinner = null;
+    $('#postButton').removeAttr('onClick');
+    //ajax call for getting specific post ID
     AJAX_GET('next.php', {'onePost': obj.value}, setFeed, '');
 
   }
-
+  //function called when user is logged in and wants to insert a comment
   function insertComment(postID){
       var comment = document.getElementById('insertComment').value;
     //  console.log(postID + " " + com );
@@ -310,11 +289,13 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
         AJAX_GET('next.php', {'insertComment': postID, 'comment' : comment}, reloadPost, '');
       }
   }
+  //chain function call when comment is successfully inserted
   function reloadPost(id){
     console.log('comment added, reloading.. ' + id);
-    AJAX_GET('next.php', {'onePost': id}, setFeed, '');
+    AJAX_GET('next.php', {'onePost': id}, setFeed, ''); // reloads the specific discussion post
   }
 
+  //loads the post template
   function postRequest(){
     //AJAX call for making post
     console.log("make post");
@@ -328,6 +309,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
   }
 
+  //show modal if user is not logged in
   function modalSign(){
     console.log("must create account");
     $('#modalTitle').html('Oceania News & Forum');
@@ -338,6 +320,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   }
 
      <?php
+      //changes button event based on if user is logged in or not
         if(isset($_SESSION['user'])){
             echo "$('#postButton').attr('onClick', 'postRequest();');";
         }else{
@@ -346,13 +329,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
 
      ?>
+   </script>
 
-
-
-
-</script>
-
-
-
-  </body>
+</body>
 </html>
