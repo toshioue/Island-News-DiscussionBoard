@@ -7,7 +7,8 @@ session_start();
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="#">
     <title>Oceania News-Forum</title>
     <!-- Bootstrap core CSS -->
@@ -179,7 +180,7 @@ session_start();
       console.log("got appended");
       $(xmlObject).hide().appendTo("#feed").fadeIn(1000);
 
-     $('html, body').animate({scrollTop: '+=300px'}, 300);
+     $('html, body').animate({scrollTop: '+=300px'}, 600);
 
 
     /////////////////////////////////////////////////////////////////////////

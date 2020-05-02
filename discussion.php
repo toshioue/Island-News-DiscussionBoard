@@ -1,6 +1,20 @@
 <?php
 session_start();
+require_once('mysql.inc.php');    # MySQL Connection Library
+include 'functions.php';
 //check if user is logged in or not
+
+if(isset($_POST['submitPost']) && isset($_SESSION['user'])){
+//function for inserting posts
+$db = new myConnectDB();          # Connect to MySQL
+//check if connecting to DB draws error
+if (mysqli_connect_errno()) {
+  echo "<h5>ERROR: " . mysqli_connect_errno() . ": " . mysqli_connect_error() . " </h5><br>";
+}
+//this function is from function.php that will run a insert sql statement
+insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $_POST['cat_post']);
+}
+
 
 ?>
 
@@ -33,9 +47,11 @@ session_start();
 
   <style>
 
-
+    button:hover {
+      background-color: red;
+    }
     .jumbotron {
-      padding-bottom: 17em;
+      height: auto;
 
     }
   </style>
@@ -58,12 +74,12 @@ session_start();
             <button class="btn btn-sm btn-outline-primary " type="submit">Search</button>
           </form>
 
-          <li id="home" class="nav-item active">
+          <li id="home" class="nav-item">
             <a class="nav-link" href="main.php" >Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="discussion.php">Discussion</a>
           </li>
 
@@ -130,7 +146,7 @@ session_start();
     <div class="col-lg-9" >
       <!--main RSS news feed display -->
       <div class="text-center text-light mt-2"><h1>Discussion Board</h1></div>
-        <div class='jumbotron jumbotron-fluid p' id='feed'>
+        <div class='jumbotron jumbotron-fluid rounded-top ' id='feed'>
         <div id='spinnerDiv' class="d-flex justify-content-center mt-3">
           <div id='spinner' class="spinner-border spinner-border-lg text-dark" role="status">
             <span class="sr-only text-light h2">Loading...</span>
@@ -142,7 +158,7 @@ session_start();
     <!--Side Bar with toggles and side Features-->
     <div id="sidenav" class="col-lg-3 border-left border-primary bg-dark bg-transparent" >
          <div class="sticky-top">
-           <div class="container bg-light rounded py-4 text-center"><button type="button" class="btn btn-lg py-3 px-10  btn-danger">Create a Post</button></div>
+           <div class="container bg-light rounded py-4 text-center"><button id="postButton" type="button" class="btn btn-lg py-3 px-10  btn-danger">Create a Post</button></div>
            <div class="h2 text-center">Filters</div>
         </div>
     </div>
@@ -152,21 +168,33 @@ session_start();
   <!-- Modal -->
   <?php
   //THIS ONLY RUNS WHEN USERS SIGNS UP FOR FIRST TIME
-  if(isset($_SESSION['created'])){
+  if(!isset($_SESSION['user'])){
     echo file_get_contents('modal.html');
-    unset($_SESSION['created']);
   }?>
 
 <!--/***********START OF JAVASCRIPT PORTION*****************************/ -->
 <script>
+  $('#Modal').modal('hide');
 
+  //this if statement prevents sendning POST values when pages is refreshed
+  if ( window.history.replaceState ) {
+          window.history.replaceState( null, null, window.location.href );
+      }
   function setFeed(xmlObject){
     console.log("setFeed() called");
     //determine if spinner loader exists, remove it from webpage
     if(xmlObject == 0 ){
-      done = true;
-      console.log('stopped');
+    //  done = true;
+      console.log('no more posts');
       $('#load').css('display', 'none');
+
+      //will enter loop if server return no posts; removes spinner and adds message
+      if ($("#spinner").length > 0){
+        console.log("spinner removed");
+        spinner = $('#spinner').detach();
+        document.getElementById('feed').innerHTML = "<h2 class='text-center'>No Posts have been made yet :(</h2>";
+
+      }
       return;
     }
 
@@ -184,6 +212,8 @@ session_start();
     }else{
       $('#feed').html(xmlObject).hide();
       $('#feed').fadeIn(1000);
+      console.log("spinner removed");
+      spinner = $('#spinner').detach();
     }
 
     if($('#load').css('display') == 'flex'){
@@ -191,10 +221,10 @@ session_start();
       $('#load').css('display', 'none');
     }
 
-    if ($("#spinner").length > 0){
+  /*  if ($("#spinner").length > 0){
       console.log("spinner removed");
       spinner = $('#spinner').detach();
-    }
+    }*/
     wait = false;
   }
 
@@ -235,16 +265,13 @@ session_start();
     }
   });
 
-  //used for js modal pop up when page finish loading when there is a sign up
-  $(window).on('load',function(){
-       $('#Modal').modal('show');
-   });
+
   //////////////////////////////////////
 
    //used for button group when switching news layout
-   $(".btn-group > .btn").click(function(){
+   /*$(".btn-group > .btn").click(function(){
      $(this).addClass("active").siblings().removeClass("active");
-   });
+   });*/
    //////////////////////////////////////
 
    //when button group gets click
@@ -262,6 +289,39 @@ session_start();
         }
 
      });
+
+
+  function postRequest(){
+    //AJAX call for making post
+    console.log("make post");
+    document.getElementById('feed').innerHTML = "";
+    spinner.appendTo('#spinnerDiv');
+    spinner = null;
+    document.getElementById('postButton').innerHTML = "<a class='btn text-light' href='discussion.php'>back to Board</a>";
+    //document.getElementById('postButton').disabled = true;
+    $('#postButton').removeAttr('onClick');
+    AJAX_GET('next.php', {'getEdit': 1}, setFeed, '');
+
+  }
+
+  function modalSign(){
+    console.log("must create account");
+    $('#modalTitle').html('Oceania News & Forum');
+    $('#modalBody').html('To participate in the Forum you must create an account or log on.');
+    $('#modalFooter').html("<a href='signup.php' class='btn btn-danger '  role='button'>Sign up</a><a href='login.php' class='btn btn-warning'   role='button'>Log in</a>");
+    $('#Modal').modal('show');
+
+  }
+
+     <?php
+        if(isset($_SESSION['user'])){
+            echo "$('#postButton').attr('onClick', 'postRequest();');";
+        }else{
+          echo "$('#postButton').attr('onClick', 'modalSign();');";
+        }
+
+
+     ?>
 
 
 

@@ -21,9 +21,13 @@ CREATE TABLE Users (Username VARCHAR(20) NOT NULL,
 
 /* Discussions*/
 CREATE TABLE Discussions (PostID INT NOT NULL AUTO_INCREMENT,
+                          PostDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           Title VARCHAR(100) NOT NULL,
                           Body VARCHAR(3000) NOT NULL,
                           Author VARCHAR(20) NOT NULL,
+                          Category VARCHAR(20) NOT NULL,
+                          Views INT DEFAULT 0,
+                          numComment INT DEFAULT 0,
                           CONSTRAINT PK_Discussions PRIMARY KEY (PostID),
                           CONSTRAINT FK_Discussions FOREIGN KEY (Author)
                               REFERENCES Users (Username));
