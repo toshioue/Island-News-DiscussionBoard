@@ -16,7 +16,7 @@ if (mysqli_connect_errno()) {
 
 //global variables containing news sources
  $urlTemp = "https://www.rnz.co.nz/rss/pacific.xml";
- $urlArray = array('FSM' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e87aadd8a93f8e3188b4567.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5e87aaf08a93f886198b45685e94eef18a93f8c1478b4567.xml",
+ $urlArray = array('FSM' => "http://fetchrss.com/rss/5ec968b38a93f8cd318b45675ec968d78a93f801348b4568.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5ec968b38a93f8cd318b45675ec969468a93f8b4378b4567.xml",
                     'GUM' => "https://www.pncguam.com/feed/", 'NAU' => "http://nauru-news.com/feed/", "KRI" => "https://kiribatiupdates.com.ki/feed/", 'FIJ' => "https://www.fbcnews.com.fj/feed/", "VAN" => "https://dailypost.vu/search/?f=rss&t=article&c=news",
                     "TGA" => "https://nukualofatimes.tbu.to/feed/", "CKI" => "http://www.cookislandsnews.com/?format=feed&type=rss",
                     'SAM' => "https://www.samoanews.com/taxonomy/term/1/all/feed");

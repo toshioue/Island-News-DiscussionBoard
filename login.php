@@ -41,7 +41,7 @@ if(isset($_POST['enteredUser']) && isset($_POST['enteredPswd'])){
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Login Oceania News</title>
+    <title>Signup Oceania News</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 

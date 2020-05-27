@@ -8,7 +8,7 @@ session_start();
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Aboutm Oceania News</title>
+    <title>About Oceania News</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
