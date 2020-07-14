@@ -250,8 +250,8 @@ function loadDiscussions($db, $filter){
         //  $array[$count] = array("id"=>$id, "date"=>$date, "title"=>$T, "body"=>$B, "auth"=>$A, "cat"=>$C, "views"=>$V, "com"=>$com);
         //  $count++;
         $date = date("F j, Y, g:i a", strtotime($date));
-        echo "<button value='$id' onclick='showPost(this)' type='button' class='btn flex container rounded border border-primary m-0' style='width:98%;'>
-              <h3 class='display-5 text-left'>" . $T . "</h3><hr class='my-1'><div class='lead' style='display: flex; justify-content:space-between;'> <div>By: <kbd> " . $A . "</kbd></div><div>Posted: <kbd> " . $date . "</kbd></div><div>Views: <kbd> ". $V . "</div><div>Comments: <kbd> ". $com . "</div></button><br/>";
+        echo "<div class='text-wrap text-break'><button value='$id' onclick='showPost(this)' type='button' class='btn rounded border border-primary m-0' style='width:98%; white-space: normal;'>
+              <h3 class=' text-left '>" . $T . "</h3><hr class='my-1'><div class='lead' style='display: flex; justify-content:space-between;'> <div>By: <kbd> " . $A . "</kbd></div><div>Posted: <kbd> " . $date . "</kbd></div><div>Views: <kbd> ". $V . "</div><div>Comments: <kbd> ". $com . "</div></button></div><br/>";
 
       }
       //return $array;
@@ -279,10 +279,10 @@ function getPost($db, $postID){
 
         while($stmt->fetch()){
           $date = date("F j, Y, g:i a", strtotime($date));
-          $post = "<div id='onePost' class='container border border-secondary'>
-          <h1 class='display-4' id='title'><u>" . $T . "</u><h1>
+          $post = "<div id='onePost' class='text-wrap text-break container'>
+          <h1 class='display-4 text-dark' id='title'><u>" . $T . "</u><h1><hr>
           <h4 class='lead' id='by'> written by <kbd>" . $A . "</kbd> on " . $date . "<kbd style='background-color: orange; font-size:12px; margin-left: 5px;'> "  . $C . "</kbd></h4>
-          <p class='border border-dark bg-light rounded' style='font-size:18px;'>" . $B . "<p></div>
+          <p class='border border-secondary rounded' style='font-size:18px; white-space: pre-line'>" . $B . "<p></div>
           <div id='comments' style='width:100%'></div><hr><h6>Comments:</h6>";
         }
         $stmt->close();
@@ -303,9 +303,9 @@ function getPost($db, $postID){
         while($stmt->fetch()){
           $stamp = date("F j, Y, g:i a", strtotime($stamp));
           if($i & 1){  $align = 'text-right';}else{$align = 'text-left';}
-          $post .= "<div class='border border-danger rounded $align' style='width:80%;'>
-          <p class='bg-secondary pb-2' style='font-size:20px; color:white;'>" . $comment . "</p>
-          <label style='font-size:13px;' id='by'>: <kbd>" . $author . "</kbd> on " . $stamp . "</label>
+          $post .= "<div class='border border-secondary rounded $align' style='width:80%;'>
+          <div class='bg-secondary'><label class=;text-light' style='font-size:13px;' id='by'>: <kbd>" . $author . "</kbd> on " . $stamp . "</label></div></hr>
+          <p class='text-dark' style='font-size:20px; white-space: pre-line'>" . $comment . "</p>
           </div><br/>";
           $i++;
         }

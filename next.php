@@ -16,7 +16,7 @@ if (mysqli_connect_errno()) {
 
 //global variables containing news sources
  $urlTemp = "https://www.rnz.co.nz/rss/pacific.xml";
- $urlArray = array('FSM' => "http://fetchrss.com/rss/5ec968b38a93f8cd318b45675ec968d78a93f801348b4568.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5ec968b38a93f8cd318b45675ec969468a93f8b4378b4567.xml",
+ $urlArray = array('FSM' => "http://fetchrss.com/rss/5f05f9278a93f82e0c8b45675f05f9898a93f846128b4567.xml", 'RMI' => "https://marshallislandsjournal.com/feed/", 'ROP' => "http://fetchrss.com/rss/5f05f9278a93f82e0c8b45675f05fa108a93f80b178b4567.xml",
                     'GUM' => "https://www.pncguam.com/feed/", 'NAU' => "http://nauru-news.com/feed/", "KRI" => "https://kiribatiupdates.com.ki/feed/", 'FIJ' => "https://www.fbcnews.com.fj/feed/", "VAN" => "https://dailypost.vu/search/?f=rss&t=article&c=news",
                     "TGA" => "https://nukualofatimes.tbu.to/feed/", "CKI" => "http://www.cookislandsnews.com/?format=feed&type=rss",
                     'SAM' => "https://www.samoanews.com/taxonomy/term/1/all/feed");
@@ -116,7 +116,7 @@ if(isset($_GET['newsCount'])){
     echo file_get_contents('post.html');
 }else if(isset($_GET['postCount'])){
 
-    //loads discussion board to discussion.pp
+    //loads discussion board to discussion.php
     $result = loadDiscussions($db, $_GET['filter']);
     echo $result;
 

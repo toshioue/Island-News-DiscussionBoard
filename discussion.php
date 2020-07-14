@@ -22,7 +22,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />
     <link rel="icon" type="image/jpg" href="#">
-    <title>Oceania News-Forum</title>
+    <title>Micronesia News-Forum</title>
     <!-- Bootstrap core CSS -->
  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
  <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
@@ -48,7 +48,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
     <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Oceania News & Forum</a>
+      <a class="navbar-brand" href="#">Micronesia News & Forum</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -121,14 +121,14 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
 
 
   <!--Disucssion Posts-->
-  <body style="background-image: url('img/sokehs.jpg');">
+  <body style="background-image: url('img/sokehs.jpg');  background-attachment: fixed; background-position: center bottom; ">
   <div class="container-fluid">
   <div class="row">
 
     <div class="col-lg-9" >
       <!--main Discussion Post display -->
-      <div class="text-center text-light mt-2"><h1>Discussion Board</h1></div>
-        <div class='jumbotron jumbotron-fluid rounded-top ' id='feed'>
+      <div class="text-center text-light mt-1"><h1>Discussion Board</h1></div>
+        <div class='jumbotron rounded-top' id='feed'>
         <div id='spinnerDiv' class="d-flex justify-content-center mt-3">
           <div id='spinner' class="spinner-border spinner-border-lg text-dark" role="status">
             <span class="sr-only text-light h2">Loading...</span>
@@ -138,7 +138,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
       </div>
     </div>
     <!--Side Bar with toggles and side Features-->
-    <div id="sidenav" class="col-lg-3 border-left border-primary bg-dark bg-transparent" >
+    <div id="sidenav" class="col-lg-3 border-left border-primary bg-dark " ><!--bg-transparent-->
          <div class="sticky-top">
            <div class="container bg-light rounded py-4 text-center"><button id="postButton" type="button" class="btn btn-lg py-3 px-10  btn-danger">Create a Post</button></div><br/>
            <div class="h2 text-center container ">
@@ -228,7 +228,8 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   var done = false; // global variable to determine when all news have loadede-attached spinner
   var wait = false; //global variable boolean for disabling bottom loading
   var spinner; //global variable to store spinner for map/scroll switch
-  //ajax call to server to get news
+
+  //ajax call to server to get discussion posts.
   AJAX_GET('next.php', {'postCount': globalPostCount}, setFeed, '');
 
 
@@ -253,7 +254,9 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
    $(".btn-secondary").click(function(){
        console.log($(this).html());
        document.getElementById('feed').innerHTML = "";
-       spinner.appendTo('#spinnerDiv');
+       $("#load").css('display', 'block');
+       $("#load").append("<p>Loading....</p>");
+       spinner.appendTo('#load');
        spinner = null;
        globalPostCount = 0;
        done = false;
@@ -272,7 +275,8 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
     //console.log(obj.value);
     //clear div
     document.getElementById('postButton').innerHTML = "<a  class='btn text-light' href='discussion.php'>back to Board</button>";
-    document.getElementById('feed').innerHTML = "";
+    document.getElementById('feed').innerHTML = "<h3 class='text-center'>Loading....</h3>";
+
     spinner.appendTo('#spinnerDiv');
     spinner = null;
     $('#postButton').removeAttr('onClick');
@@ -312,7 +316,7 @@ insertPost($db, $_POST['title_post'],  $_POST['body_post'], $_SESSION['user'], $
   //show modal if user is not logged in
   function modalSign(){
     console.log("must create account");
-    $('#modalTitle').html('Oceania News & Forum');
+    $('#modalTitle').html('Micronesia News & Forum');
     $('#modalBody').html('To participate in the Forum you must create an account or log on.');
     $('#modalFooter').html("<a href='signup.php' class='btn btn-danger '  role='button'>Sign up</a><a href='login.php' class='btn btn-warning'   role='button'>Log in</a>");
     $('#Modal').modal('show');

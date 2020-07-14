@@ -10,7 +10,7 @@ session_start();
     <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" charset="utf-8" />-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/jpg" href="#">
-    <title>Oceania News-Forum</title>
+    <title>Micronesian News-Forum</title>
     <!-- Bootstrap core CSS -->
  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
  <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
@@ -24,10 +24,13 @@ session_start();
 <link href="main.css" rel="stylesheet">
 
   </head>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="img/favicon.png">
+
     <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Oceania News & Forum</a>
+      <a class="navbar-brand" href="#">Micronesia News & Forum </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -52,6 +55,7 @@ session_start();
           </li>
 
           <?php
+          /*checks if user's session is set and loged in */
           if(!isset($_SESSION['user'])){
              echo "<li class='nav-item'>
                         <a class='nav-link' href='signup.php'>Sign Up</a>
@@ -98,13 +102,13 @@ session_start();
 
 
   <!--RSS NEWS FEED-->
-  <body style="background-image: url('img/sokehs.jpg');">
+  <body style="background-image: url('img/sokehs.jpg'); background-repeat: repeat-y; background-attachment: fixed;">
   <div class="container-fluid">
   <div class="row">
 
     <div class="col-lg-9" >
       <!--main RSS news feed display -->
-      <div class="text-center text-light"><h1>Oceania News Headlines</h1></div>
+      <div class="text-center text-light"><h1>Micronesia News Headlines</h1></div>
         <div  id='feed'></div>
         <div id='spinnerDiv' class="d-flex justify-content-center mt-3">
           <div id='spinner' class="spinner-border spinner-border-lg text-light" role="status">
@@ -215,10 +219,37 @@ function check(response){
   AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
   //call('https://api.weather.gov/points/6.892113,158.214691', check);
 
+//-----------------------------Taken from Stack overFlow
+  function getScrollbarWidth() {
+var outer = document.createElement("div");
+outer.style.visibility = "hidden";
+outer.style.width = "100px";
+outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+
+document.body.appendChild(outer);
+
+var widthNoScroll = outer.offsetWidth;
+// force scrollbars
+outer.style.overflow = "scroll";
+
+// add innerdiv
+var inner = document.createElement("div");
+inner.style.width = "100%";
+outer.appendChild(inner);
+
+var widthWithScroll = inner.offsetWidth;
+
+// remove divs
+outer.parentNode.removeChild(outer);
+
+return widthNoScroll - widthWithScroll;
+}
+///---------------------------------------
+
   //Jquery reaction to run Ajax call when user scrolls to bottom of page to load more news
   $(window).scroll(function() {
     //console.log($(window).scrollTop());
-      if($(window).scrollTop() == $(document).height() - $(window).height() && done == false && wait == false) {
+      if((($(window).scrollTop() + $(window).innerHeight()) >= $(document).height()-getScrollbarWidth() && done == false && wait == false)) {
             console.log("bottom of page hit");
 
             $('#load').css('display', 'flex');
@@ -261,7 +292,7 @@ function check(response){
           AJAX_GET('next.php', {'newsCount': globalNewsCount}, setFeed, '');
         }else if($(this).html() == 'map'){
           done = true;
-          document.getElementById('feed').innerHTML = "<iframe class='border border-dark' width='100%' height='450' src='https://embed.windy.com/embed2.html?lat=-2.285&lon=168.047&zoom=3&level=surface&overlay=wind&menu=&message=true&marker=true&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=33.816&detailLon=-117.969&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1' frameborder='0'></iframe>"
+          document.getElementById('feed').innerHTML = "<iframe class='border border-dark' style='width:100%; height:85vh; overflow: hidden; ' src='https://embed.windy.com/embed2.html?lat=-2.285&lon=168.047&zoom=3&level=surface&overlay=wind&menu=&message=true&marker=true&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=33.816&detailLon=-117.969&metricWind=kt&metricTemp=%C2%B0F&radarRange=-1' frameborder='0'></iframe>"
         }else{}
 
      });
