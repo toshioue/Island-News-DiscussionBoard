@@ -41,7 +41,7 @@ if(isset($_POST['enteredUser']) && isset($_POST['enteredPswd'])){
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Signup Oceania News</title>
+    <title>Signup Micronesia News</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
@@ -82,7 +82,7 @@ if(isset($_POST['enteredUser']) && isset($_POST['enteredPswd'])){
   <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#">Oceania News & Forum</a>
+    <a class="navbar-brand" href="#">Micronesia News & Forum</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
       data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

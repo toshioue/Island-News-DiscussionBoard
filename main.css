@@ -26,9 +26,9 @@
 
 body{
   padding-top: 65px;
-  background-color: black;
   background-image: url('img/sokehs.jpg');
-  background-repeat:repeat;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   /*margin-bottom: 30px;*/
 
 }

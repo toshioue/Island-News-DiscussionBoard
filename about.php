@@ -8,7 +8,7 @@ session_start();
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>About Oceania News</title>
+    <title>About Micronesia News</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="bootstrap/icon/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
@@ -49,7 +49,7 @@ session_start();
   <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#">Oceania News & Forum</a>
+    <a class="navbar-brand" href="#">Micronesia News & Forum</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
       data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -111,11 +111,11 @@ session_start();
 
   <body>
     <div class="container row justify-content-center">
-      <div class="col-md-8 col-md-offset-4 text-center ">
+      <div class="col-lg-10 col-md-offset-5 text-center ">
       <div id= "box" class=" flex jumbotron jumbotron-fluid rounded border border-dark">
-        <h1 class="Display-4">Welcome to Oceania News and Forum</h1>
+        <h1 class="Display-4">Welcome to Micronesia News and Forum</h1>
         <p class="lead" >
-          This website features an RSS aggregator/API that pulls recent news from Pacific Islands News Websites.
+          This website features an RSS aggregator/API that pulls recent news from Pacific Islands News Websites (mainly Micronesian related sites).
           Additionally, the website feature a Discussion forum where users can view posts made by users who choose
           to make a profile. Users can also comment on post and have a friendly conversation about a topic. The motivation behind this website was that Pacific news sources are very hard to find
           online and congregating it into one website would satisfy anyone looking to find whats happening in the
