@@ -114,26 +114,28 @@ session_start();
       <div class="col-lg-10 col-md-offset-5 text-center ">
       <div id= "box" class=" flex jumbotron jumbotron-fluid rounded border border-dark">
         <h1 class="Display-4">Welcome to Micronesia News and Forum</h1>
-        <p class="lead" >
-          This website features an RSS aggregator/API that pulls recent news from Pacific Islands News Websites (mainly Micronesian related sites).
-          Additionally, the website feature a Discussion forum where users can view posts made by users who choose
-          to make a profile. Users can also comment on post and have a friendly conversation about a topic. The motivation behind this website was that Pacific news sources are very hard to find
+        <p class="lead text-left ml-4" >
+          This website features an RSS aggregator/API that pulls recent news from Pacific Islands
+          News Websites (mainly Micronesian related sites).<br>
+          Additionally, the website feature a Discussion forum where users can create posts about Micronesian - related issues.
+         Users can also comment on post and have a friendly conversation about a topic.
+          The motivation behind this website was that Pacific news sources are very hard to find
           online and congregating it into one website would satisfy anyone looking to find whats happening in the
           Pacific.
         </p>
         <label><u> Current News Sources for Pacific Island News: Micronesia, Melanesia, Polynesia:</u></label><br/>
         <ul class="text-left border border-dark bg-white">
-          <li>Federated States of Micronesia</li>
-          <li>Marshall Islands</li>
-          <li>Palau</li>
-          <li>Guam</li>
-          <li>Nauru</li>
-          <li>Kiribati</li>
-          <li>Fiji</li>
-          <li>Vanuatu</li>
-          <li>Cook Islands</li>
-          <li>Samoa</li>
-          <li>Tonga</li>
+          <li>Federated States of Micronesia - <a target="_blank" href="https://gov.fm/">gov.fm</a></li>
+          <li>Marshall Islands - <a target="_blank" href="https://marshallislandsjournal.com/">marshalislandsjournal.com</a></li>
+          <li>Palau - <a target="_blank" href="#">Tia Belau news - Facebook</a></li>
+          <li>Guam - <a target="_blank" href="#">PNC News</a></li>
+          <li>Nauru - <a target="_blank" href="https://nauru-news.com">Nauru News</a></li>
+          <li>Kiribati - <a target="_blank" href="https://kiribatiupdates.com">Belau news - Facebook</a></li>
+          <li>Fiji - <a target="_blank" href="https://fbcnews.com.fj">Fiji Broadcasting Corp.</a></li>
+          <li>Vanuatu - <a target="_blank" href="https://dailypost.vu">Vanuautu Daily Posts</a></li>
+          <li>Cook Islands - <a target="_blank" href="https://cookislandnews.com">Cook Island News</a></li>
+          <li>Samoa - <a target="_blank" href="https://samoannews.com">Samoan News</a></li>
+          <li>Tonga - <a target="_blank" href="https://nukualofatimes.tbu">NukuAlofa News</a></li>
         </ul>
 
 
